@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::View('/{app?}', 'app')->where('app','^(?!.*admin).*$');
+Route::get('/{admin?}', function(){
+    return 'admin works';
+})->where('admin','admin.*');
