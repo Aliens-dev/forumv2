@@ -1,0 +1,16 @@
+$NavColor : #003366;
+$Primarybackground :#F3F3F3;
+$color : #BEBEBE;
+
+.navbar {
+    background-color:$NavColor;
+    color:#FFF;
+    height:50px;
+    a{
+        color:#FFF;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    
+}
