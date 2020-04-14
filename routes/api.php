@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-
 Route::resource('forums','Forum\ForumController')->except(['create','edit']);
-Route::resource('forums.posts','Forum\ForumPostsController')->only(['index']);
-Route::resource('posts','Post\PostController')->except(['index','edit','create']);
-Route::resource('posts.replies','Post\PostRepliesController')->only(['index']);
-Route::resource('replies','Reply\ReplyController')->except(['create','edit']);
+Route::resource('forums.posts','Forum\ForumPostsController')->except(['create','edit']);
+Route::resource('forums.posts.replies','Post\PostRepliesController')->except(['create','edit']);
+//Route::resource('replies','Reply\ReplyController')->except(['create','edit']);
+//Route::resource('posts','Post\PostController')->except(['index','edit','create']);
+//Route::resource('users','User\UserController');
