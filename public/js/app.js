@@ -6565,7 +6565,45 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".home-page {\n  background-color: #F3F3F3;\n  padding: 20px 0;\n}\n.home-page .forum-section {\n  background-color: #FFF;\n  padding: 10px;\n  border-radius: 3px;\n  border: 1px solid #FaFaFa;\n  margin-bottom: 10px;\n}\n.home-page .forum-section .forum-info {\n  display: grid;\n  grid-template-columns: 50px 1fr;\n  align-items: center;\n}\n.home-page .forum-section .forum-info .title {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.home-page .forum-section .forum-info .title .forum-name {\n  font-size: 17px;\n  font-weight: 600;\n}\n.home-page .forum-section .forum-info .title .forum-description {\n  font-size: 12px;\n  color: #505050;\n  text-transform: capitalize;\n}\n.home-page .forum-section .forum-details {\n  display: grid;\n  grid-template-columns: 60px 60px 1fr;\n  grid-column-gap: 5px;\n}\n.home-page .forum-section .forum-details > div {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  font-size: 11px;\n  color: #505050;\n  font-weight: 600;\n}\n.home-page .forum-section .forum-details > div > span:last-child {\n  font-size: 12px;\n}\n.home-page .forum-section .forum-details > div:last-child {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  font-size: 14px;\n}\n.home-page .forum-section .forum-details > div:last-child > span:last-child {\n  font-size: 12px;\n}", ""]);
+exports.push([module.i, ".home-page {\n  background-color: #F3F3F3;\n  padding: 20px 0;\n}\n.home-page a:hover {\n  text-decoration: none;\n}\n.home-page .forum-section {\n  background-color: #FFF;\n  padding: 15px 10px;\n  margin: 0 0 10px 0;\n  border-radius: 3px;\n  border: 1px solid #FaFaFa;\n}\n.home-page .forum-section .forum-info {\n  display: grid;\n  grid-template-columns: 50px 1fr;\n  align-items: center;\n  padding: 0;\n}\n.home-page .forum-section .forum-info .icon {\n  display: flex;\n}\n.home-page .forum-section .forum-info .title {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.home-page .forum-section .forum-info .title .forum-name {\n  font-size: 17px;\n  font-weight: 600;\n}\n.home-page .forum-section .forum-info .title .forum-name a {\n  color: #505050;\n}\n.home-page .forum-section .forum-info .title .forum-name a:hover {\n  color: #8c8c8c;\n}\n.home-page .forum-section .forum-info .title .forum-description {\n  font-size: 12px;\n  color: #8c8c8c;\n  text-transform: capitalize;\n}\n.home-page .forum-section .forum-details {\n  display: grid;\n  grid-template-columns: 60px 60px 1fr;\n  grid-column-gap: 5px;\n}\n.home-page .forum-section .forum-details > div {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  font-size: 11px;\n  color: #8c8c8c;\n  font-weight: 600;\n}\n.home-page .forum-section .forum-details > div > span:last-child {\n  font-size: 12px;\n  color: #505050;\n}\n.home-page .forum-section .forum-details > div:last-child {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  font-size: 14px;\n}\n.home-page .forum-section .forum-details > div:last-child > span:last-child {\n  font-size: 12px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/PostsListPage.scss":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/app/assets/styles/PostsListPage.scss ***!
+  \**********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".home-page {\n  background-color: #F3F3F3;\n  padding: 20px 0;\n}\n.home-page .post-section {\n  background-color: #FFF;\n  padding: 15px 10px;\n  margin: 0 0 10px 0;\n  border-radius: 3px;\n  border: 1px solid #FaFaFa;\n}\n.home-page .post-section .post-info {\n  display: grid;\n  grid-template-columns: 50px 1fr;\n  align-items: center;\n  padding: 0;\n}\n.home-page .post-section .post-info .icon {\n  display: flex;\n}\n.home-page .post-section .post-info .title {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.home-page .post-section .post-info .title .post-title {\n  font-size: 17px;\n  font-weight: 600;\n}\n.home-page .post-section .post-info .title .post-title a {\n  color: #505050;\n}\n.home-page .post-section .post-info .title .post-title a:hover {\n  color: #8c8c8c;\n}\n.home-page .post-section .post-info .title .post-description {\n  font-size: 12px;\n  color: #8c8c8c;\n  text-transform: capitalize;\n}\n.home-page .post-section .post-details {\n  display: grid;\n  grid-template-columns: 60px 1fr 2fr;\n  grid-column-gap: 5px;\n}\n.home-page .post-section .post-details > div {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  font-size: 11px;\n  color: #8c8c8c;\n  font-weight: 600;\n}\n.home-page .post-section .post-details > div > span:last-child {\n  font-size: 12px;\n  color: #505050;\n  text-align: center;\n}\n.home-page .post-section .post-details > div:last-child {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  font-size: 12px;\n}\n.home-page .post-section .post-details > div:last-child > span:last-child {\n  font-size: 12px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/ThreadStyle.scss":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/app/assets/styles/ThreadStyle.scss ***!
+  \********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".wrapper {\n  background-color: #FFF;\n  border-radius: 3px;\n  border: 1px solid #FDFDFD;\n  margin: 10px 0;\n}\n.wrapper .row {\n  margin: 0;\n}\n.wrapper .thread-calendar {\n  display: flex;\n  justify-content: flex-start;\n  padding: 10px 10px;\n  align-items: center;\n  max-height: 40px;\n  min-height: 40px;\n  height: 40px;\n  border-bottom: 1px solid #EEE;\n}\n.wrapper .thread-main {\n  padding: 10px;\n  border-bottom: 1px solid #EEE;\n  min-height: 200px;\n}\n.wrapper .thread-main .profile-section {\n  border-right: 1px solid #EEE;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start;\n  align-items: center;\n}\n.wrapper .thread-main .profile-section .profile-pic {\n  width: 100px;\n  height: 100px;\n  border-radius: 2px;\n  margin: 10px 0;\n}\n.wrapper .thread-main .profile-section .profile-pic img {\n  border-radius: 2px;\n  width: 100%;\n  height: 100%;\n}\n.wrapper .thread-main .profile-section .profile-username {\n  padding: 5px 0;\n  margin: 5px;\n}\n.wrapper .thread-foot {\n  max-height: 40px;\n  min-height: 40px;\n  height: 40px;\n}", ""]);
 
 // exports
 
@@ -73738,6 +73776,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_Navbar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Navbar */ "./resources/js/app/components/Navbar.js");
+
+
 
 
 
@@ -73747,7 +73789,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routes_HomeRoutes__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routes_HomeRoutes__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 };
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
@@ -73760,13 +73802,19 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*******************************************!*\
   !*** ./resources/js/app/actions/index.js ***!
   \*******************************************/
-/*! exports provided: GET_ALL_FORUMS, getAllForumsAction */
+/*! exports provided: GET_ALL_FORUMS, GET_POSTS, GET_POST, GET_POST_REPLIES, getAllForumsAction, getPosts, getPost, getPostReplies */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_ALL_FORUMS", function() { return GET_ALL_FORUMS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POSTS", function() { return GET_POSTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POST", function() { return GET_POST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POST_REPLIES", function() { return GET_POST_REPLIES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllForumsAction", function() { return getAllForumsAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPosts", function() { return getPosts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPost", function() { return getPost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostReplies", function() { return getPostReplies; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../apis/ForumsPage */ "./resources/js/app/apis/ForumsPage.js");
@@ -73777,6 +73825,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var GET_ALL_FORUMS = 'GET_ALL_FORUMS';
+var GET_POSTS = 'GET_POSTS';
+var GET_POST = 'GET_POST';
+var GET_POST_REPLIES = 'GET_POST_REPLIES';
 
 var getAllForumsAction = function getAllForumsAction() {
   return /*#__PURE__*/function () {
@@ -73809,6 +73860,99 @@ var getAllForumsAction = function getAllForumsAction() {
     };
   }();
 };
+var getPosts = function getPosts(id) {
+  return /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dispatch) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__["default"].get("/".concat(id, "/posts"));
+
+            case 2:
+              response = _context2.sent;
+              dispatch({
+                type: GET_POSTS,
+                payload: response.data
+              });
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function (_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+};
+var getPost = function getPost(forumId, postId) {
+  return /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dispatch) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__["default"].get("/".concat(forumId, "/posts/").concat(postId));
+
+            case 2:
+              response = _context3.sent;
+              dispatch({
+                type: GET_POST,
+                payload: response.data
+              });
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function (_x3) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+};
+var getPostReplies = function getPostReplies(forumId, postId) {
+  return /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(dispatch) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__["default"].get("/".concat(forumId, "/posts/").concat(postId, "/replies"));
+
+            case 2:
+              response = _context4.sent;
+              dispatch({
+                type: GET_POST_REPLIES,
+                payload: response.data
+              });
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    return function (_x4) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+};
 
 /***/ }),
 
@@ -73825,7 +73969,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = (axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://127.0.0.1:8000/forums'
+  baseURL: 'http://127.0.0.1:8000/api/forums'
 }));
 
 /***/ }),
@@ -73869,6 +74013,66 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./HomePageStyle.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/HomePageStyle.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./resources/js/app/assets/styles/PostsListPage.scss":
+/*!***********************************************************!*\
+  !*** ./resources/js/app/assets/styles/PostsListPage.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./PostsListPage.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/PostsListPage.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./resources/js/app/assets/styles/ThreadStyle.scss":
+/*!*********************************************************!*\
+  !*** ./resources/js/app/assets/styles/ThreadStyle.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./ThreadStyle.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/ThreadStyle.scss");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -73960,6 +74164,53 @@ var Navbar = function Navbar() {
 
 /***/ }),
 
+/***/ "./resources/js/app/components/Thread.js":
+/*!***********************************************!*\
+  !*** ./resources/js/app/components/Thread.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _assets_styles_ThreadStyle_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/styles/ThreadStyle.scss */ "./resources/js/app/assets/styles/ThreadStyle.scss");
+/* harmony import */ var _assets_styles_ThreadStyle_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_ThreadStyle_scss__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+var Thread = function Thread(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wrapper"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row thread-calendar"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-clock-o"
+  }), " ", props.created)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row thread-main"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-2 profile-section"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "profile-pic"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "https://unsplash.it/200/200",
+    alt: props.username
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "profile-username"
+  }, props.username)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-10"
+  }, props.content)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row thread-foot"
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Thread);
+
+/***/ }),
+
 /***/ "./resources/js/app/pages/Forum.js":
 /*!*****************************************!*\
   !*** ./resources/js/app/pages/Forum.js ***!
@@ -73971,13 +74222,85 @@ var Navbar = function Navbar() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _assets_styles_PostsListPage_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/styles/PostsListPage.scss */ "./resources/js/app/assets/styles/PostsListPage.scss");
+/* harmony import */ var _assets_styles_PostsListPage_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_PostsListPage_scss__WEBPACK_IMPORTED_MODULE_4__);
 
 
-var Forum = function Forum() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Forum Page");
+
+
+
+
+var Forum = function Forum(props) {
+  var getPosts = props.getPosts,
+      posts = props.posts;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    getPosts(props.match.params.forumId);
+  }, []);
+
+  var render = function render() {
+    console.log(props);
+
+    if (posts.isLoading) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " Loading ... ");
+    } else {
+      return posts.data.map(function (post) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "row post-section",
+          key: post.id
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-8 post-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "icon"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "/img/forum.gif",
+          alt: "post-icon"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "title"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "post-title"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+          to: "".concat(post.forum_id, "/posts/").concat(post.id)
+        }, post.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "post-description"
+        }, post.description))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-4 post-details"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "posts"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Replies"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, post.replies_count)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, post.user.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " Created at"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", post.created_at))));
+      });
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "home-page"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    "aria-label": "breadcrumb"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+    className: "breadcrumb"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+    to: "/"
+  }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item active",
+    "aria-current": "page"
+  }, posts.forum.name))), render()));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Forum);
+var mapStateToPorps = function mapStateToPorps(state) {
+  return {
+    posts: state.posts
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToPorps, {
+  getPosts: _actions__WEBPACK_IMPORTED_MODULE_1__["getPosts"]
+})(Forum));
 
 /***/ }),
 
@@ -73993,9 +74316,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
-/* harmony import */ var _assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/styles/HomePageStyle.scss */ "./resources/js/app/assets/styles/HomePageStyle.scss");
-/* harmony import */ var _assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/styles/HomePageStyle.scss */ "./resources/js/app/assets/styles/HomePageStyle.scss");
+/* harmony import */ var _assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_HomePageStyle_scss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -74007,6 +74331,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -74045,7 +74370,9 @@ var Home = function Home(props) {
           className: "title"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "forum-name"
-        }, forum.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
+          to: "/forums/".concat(forum.id)
+        }, forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "forum-description"
         }, forum.description))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "col-4 forum-details"
@@ -74055,7 +74382,7 @@ var Home = function Home(props) {
           className: "messages"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "latest"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, forum.latest_post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, forum.latest_post.created_at, " - ", forum.latest_post.user.name))));
+        }, forum.latest_post ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", forum.latest_post.created_at, " - ", forum.latest_post.user.name) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "No Posts yet."))));
       });
     }
   };
@@ -74073,9 +74400,112 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, {
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, {
   getAllForumsAction: _actions__WEBPACK_IMPORTED_MODULE_1__["getAllForumsAction"]
 })(Home));
+
+/***/ }),
+
+/***/ "./resources/js/app/pages/Post.js":
+/*!****************************************!*\
+  !*** ./resources/js/app/pages/Post.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+/* harmony import */ var _components_Thread__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Thread */ "./resources/js/app/components/Thread.js");
+
+
+
+
+
+
+var Post = function Post(props) {
+  var getPost = props.getPost,
+      getPostReplies = props.getPostReplies;
+  var _props$match$params = props.match.params,
+      postId = _props$match$params.postId,
+      forumId = _props$match$params.forumId;
+  var forumName = Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    getPost(forumId, postId);
+    getPostReplies(forumId, postId);
+  }, []);
+
+  var renderPost = function renderPost() {
+    if (props.post.postLoading) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading ...");
+    } else {
+      var myPost = props.post.post;
+      var userName = props.post.post.user && props.post.post.user.name;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "post"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "title"
+      }, myPost.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        created: myPost.created_at,
+        content: myPost.content,
+        username: userName
+      }));
+    }
+  };
+
+  var renderReplies = function renderReplies() {
+    if (props.post.repliesLoading) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading...");
+    } else {
+      var myReplies = props.post.replies;
+      return myReplies.map(function (reply) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          key: reply.id,
+          created: reply.created_at,
+          content: reply.content,
+          username: reply.user.name
+        });
+      });
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "home-page"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    "aria-label": "breadcrumb"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+    className: "breadcrumb"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/"
+  }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/forum/".concat(props.post.post.forum && props.post.post.forum.id, "/posts")
+  }, props.post.post.forum && props.post.post.forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item active",
+    "aria-current": "page"
+  }, props.post.post && props.post.post.title))), renderPost(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "replies"
+  }, renderReplies())));
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    post: state.post
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
+  getPost: _actions__WEBPACK_IMPORTED_MODULE_3__["getPost"],
+  getPostReplies: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostReplies"]
+})(Post));
 
 /***/ }),
 
@@ -74117,6 +74547,97 @@ var ForumsReducer = function ForumsReducer() {
 
 /***/ }),
 
+/***/ "./resources/js/app/reducers/PostReducer.js":
+/*!**************************************************!*\
+  !*** ./resources/js/app/reducers/PostReducer.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initState = {
+  post: {},
+  postLoading: true,
+  replies: [],
+  repliesLoading: true
+};
+
+var PostsReducer = function PostsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_POST"]:
+      return _objectSpread({}, state, {
+        postLoading: false,
+        post: action.payload.data
+      });
+      break;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_POST_REPLIES"]:
+      return _objectSpread({}, state, {
+        repliesLoading: false,
+        replies: action.payload.data
+      });
+      break;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (PostsReducer);
+
+/***/ }),
+
+/***/ "./resources/js/app/reducers/PostsReducer.js":
+/*!***************************************************!*\
+  !*** ./resources/js/app/reducers/PostsReducer.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+
+var initState = {
+  isLoading: true,
+  data: [],
+  forum: {}
+};
+
+var PostsReducer = function PostsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_POSTS"]:
+      return {
+        isLoading: false,
+        data: action.payload.data,
+        forum: action.payload.forum
+      };
+      break;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (PostsReducer);
+
+/***/ }),
+
 /***/ "./resources/js/app/reducers/index.js":
 /*!********************************************!*\
   !*** ./resources/js/app/reducers/index.js ***!
@@ -74128,10 +74649,16 @@ var ForumsReducer = function ForumsReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _ForumsReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ForumsReducer */ "./resources/js/app/reducers/ForumsReducer.js");
+/* harmony import */ var _PostsReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PostsReducer */ "./resources/js/app/reducers/PostsReducer.js");
+/* harmony import */ var _PostReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PostReducer */ "./resources/js/app/reducers/PostReducer.js");
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  forums: _ForumsReducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  forums: _ForumsReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  posts: _PostsReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  post: _PostReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),
@@ -74150,7 +74677,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _pages_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../pages/Home */ "./resources/js/app/pages/Home.js");
 /* harmony import */ var _pages_Forum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Forum */ "./resources/js/app/pages/Forum.js");
-/* harmony import */ var _components_Navbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Navbar */ "./resources/js/app/components/Navbar.js");
+/* harmony import */ var _pages_Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/Post */ "./resources/js/app/pages/Post.js");
 
 
 
@@ -74158,16 +74685,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HomeRoutes = function HomeRoutes() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/",
     exact: true,
-    component: _pages_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
+    render: function render(e) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_Home__WEBPACK_IMPORTED_MODULE_2__["default"], e);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/forums/:forumId",
+    exact: true,
+    render: function render(e) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_Forum__WEBPACK_IMPORTED_MODULE_3__["default"], e);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/forums/:forumId/posts/:postId",
+    exact: true,
+    render: function render(e) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_Post__WEBPACK_IMPORTED_MODULE_4__["default"], e);
+    }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "*",
-    component: function component() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Error 404");
+    render: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Error!");
     }
-  }), ">"));
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (HomeRoutes);

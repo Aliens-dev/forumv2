@@ -2,18 +2,17 @@ import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Home from '../pages/Home';
 import Forum from '../pages/Forum';
-import Navbar from '../components/Navbar';
+import Post from '../pages/Post';
 
 const HomeRoutes = () => {
 
     return (
-        <Router>
-            <Navbar />
             <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="*" component={()=> <div>Error 404</div>} />>
+                <Route path="/" exact render={ e => <Home {...e} />} />
+                <Route path="/forums/:forumId" exact render={e => <Forum {...e} />} />
+                <Route path="/forums/:forumId/posts/:postId" exact render={e=> <Post {...e} /> } />
+                <Route path="*" render={()=> <div>Error!</div>} />
             </Switch>
-        </Router>
     )
 }
 export default HomeRoutes;

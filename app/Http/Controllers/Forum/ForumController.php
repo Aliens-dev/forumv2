@@ -19,7 +19,7 @@ class ForumController extends Controller
     public function index()
     {
         $forums = Forum::select('id','name')
-            ->withCount('posts')->get();
+            ->withCount('posts')->orderBy('id')->get();
         foreach($forums as $forum) {
             $forum->latest_post = $forum->posts()
                                 ->select('title','user_id','created_at')

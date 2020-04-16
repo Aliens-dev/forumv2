@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {getAllForumsAction} from '../actions';
+import { connect } from 'react-redux';
 
 import '../assets/styles/HomePageStyle.scss';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 const Home = props => {
     const { getAllForumsAction, forums } = props;
-
     const [loading,setLoading] = useState(true);
+
     useEffect(()=> {
         getAllForumsAction();
     },[])
@@ -24,7 +25,7 @@ const Home = props => {
                             </div>
                             <div className="title">
                                 <div className="forum-name">
-                                    {forum.name}
+                                    <Link to={`/forums/${forum.id}`}>{forum.name}</Link>
                                 </div>
                                 <div className="forum-description">
                                     {forum.description}
@@ -41,8 +42,13 @@ const Home = props => {
                                 <span>1</span>
                             </div>
                             <div className="latest">
-                                <span>{forum.latest_post.title}</span>
-                                <span>{forum.latest_post.created_at} - {forum.latest_post.user.name}</span>
+                                { 
+                                    forum.latest_post
+                                    ? 
+                                    <span> { forum.latest_post.created_at } - { forum.latest_post.user.name }</span>
+                                    :
+                                    <span>No Posts yet.</span>
+                                }
                             </div>
                         </div>
                     </div>

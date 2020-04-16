@@ -17,20 +17,15 @@ class ForumPostsController extends Controller
      */
     public function index($id)
     {
+        $forum = Forum::findOrFail($id)->select('name')->first();
         $posts = Forum::findOrFail($id)
-                            ->posts()
-                            ->select('id','title','description','user_id','forum_id')
-                            ->with('user:name,id')
-                            ->withCount('replies')
-                            ->get();
-        foreach($posts as $post) {
-            $post->latest_reply = $post->replies()
-                            ->select('content','post_id','user_id')
-                            ->with('user:name,id')
-                            ->orderByDesc('created_at')
-                            ->first();
-        }
-        return response()->json(['data'=>$posts],200);
+                        ->posts()
+                        ->select('id','title','description','user_id','forum_id','created_at')
+                        ->with('user:name,id')
+                        ->with('forum:name,id')
+                        ->withCount('replies')
+                        ->get();
+        return response()->json(['success'=>true,'data'=>$posts,'forum'=>$forum],200);
     }
     
     /**
@@ -39,7 +34,7 @@ class ForumPostsController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request,$id)
+    public function store(Request $request,$postId)
     {
         $rules= [
             'title'=> 'required|max:60|min:3',
@@ -50,7 +45,7 @@ class ForumPostsController extends Controller
         if($validate->fails()){
             return response()->json(['success'=>false,'data'=>$validate->errors()]);
         }
-        $forum = Forum::findOrFail($id);
+        $forum = Forum::findOrFail($postId);
         $post = new Post($request->all());
         $saved = $post->forum()->associate($forum)->user()->associate(1)->save();       
         return response()->json(['success'=>$saved]);
@@ -62,9 +57,12 @@ class ForumPostsController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function show($id)
+    public function show(Forum $forum, $postId)
     {   
-        $post = Post::findOrFail($id);
+        if(!$forum->posts->contains($postId)){
+            return response()->json(['success'=>false,'data'=>'Page not Found'],404);
+        }
+        $post = Post::where('id',$postId)->with('forum:name,id')->with('user')->first();
         return response()->json(['success'=>true,'data'=>$post]);
     }
 

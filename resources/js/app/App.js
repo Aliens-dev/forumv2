@@ -5,12 +5,15 @@ import reducers from './reducers';
 import {createStore , applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 const App =() => {
     return (
-        <div>
+        <Router>
+            <Navbar />
             <HomeRoutes />
-        </div>
+        </Router>
     )
 }
 

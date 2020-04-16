@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use DateTimeInterface;
 class Reply extends Model
 {
     protected $hidden = [
@@ -21,5 +21,9 @@ class Reply extends Model
     }
     public function forum() {
         return $this->belongsTo('App\Forum');
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('l m Y');
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
+use \DateTimeInterface;
 class Post extends Model
 {
+
+
     protected $fillable = [
         'title','description','content'
     ];
@@ -18,5 +21,9 @@ class Post extends Model
     }
     public function forum () {
         return $this->belongsTo('App\Forum');
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('l m Y');
     }
 }

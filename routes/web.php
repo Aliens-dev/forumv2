@@ -13,7 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::View('/{app?}', 'app')->where('app','^(?!.*admin).*$');
-Route::get('/{admin?}', function(){
-    return 'admin works';
-})->where('admin','admin.*');
+Route::view('/{app?}','app')->where('app','.*');
+
