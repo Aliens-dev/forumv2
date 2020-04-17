@@ -17,10 +17,7 @@ class ForumPostsController extends Controller
      */
     public function index($id)
     {
-        $posts = Forum::findOrFail($id)
-                        ->posts()
-                        ->withCount('replies')
-                        ->get();
+        $posts = Forum::findOrFail($id)->posts()->with('replies')->withCount('replies')->get();
         return response()->json(['success'=>true,'data'=>$posts],200);
     }
     

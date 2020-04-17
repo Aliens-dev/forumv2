@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getPostsAndUsersAction } from '../actions';
+import { getPostsAndUsersAction,resetForumPostsStateAction } from '../actions';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import ForumNav from '../components/ForumNav';
@@ -7,10 +7,14 @@ import '../assets/styles/PostsListPage.scss';
 import Loading from '../components/Loading';
 
 const Forum = props => {
-    const { getPostsAndUsersAction,posts } = props;
+    const { getPostsAndUsersAction,resetForumPostsStateAction,posts } = props;
     useEffect(()=> {
         getPostsAndUsersAction(props.match.params.forumId);
-    },[])
+        return function cleanup() {
+            resetForumPostsStateAction();
+        }
+    },[]);
+
     const render = () => {
         if(posts.isLoading) {
             return <Loading />
@@ -50,4 +54,4 @@ const mapStateToPorps = (state) => {
         posts : state.posts,
     }
 }
-export default connect(mapStateToPorps,{ getPostsAndUsersAction })(Forum);
+export default connect(mapStateToPorps,{ getPostsAndUsersAction,resetForumPostsStateAction })(Forum);

@@ -73802,7 +73802,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*******************************************!*\
   !*** ./resources/js/app/actions/index.js ***!
   \*******************************************/
-/*! exports provided: GET_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, getAllForumsAction, getForumAction, getPostsAndUsersAction, getForumPostsAction, getPostAction, getUserAction, getPostRepliesAction */
+/*! exports provided: GET_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, getAllForumsAction, getForumAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, getPostAction, getUserAction, getPostRepliesAction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73813,10 +73813,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POST", function() { return GET_POST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POST_REPLIES", function() { return GET_POST_REPLIES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_USER", function() { return GET_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_FORUM_POSTS_STATE", function() { return RESET_FORUM_POSTS_STATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_POSTS_STATE", function() { return RESET_POSTS_STATE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllForumsAction", function() { return getAllForumsAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumAction", function() { return getForumAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostsAndUsersAction", function() { return getPostsAndUsersAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumPostsAction", function() { return getForumPostsAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetForumPostsStateAction", function() { return resetForumPostsStateAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetPostsStateAction", function() { return resetPostsStateAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostAction", function() { return getPostAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAction", function() { return getUserAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostRepliesAction", function() { return getPostRepliesAction; });
@@ -73846,6 +73850,8 @@ var GET_FORUM_POSTS = 'GET_FORUM_POSTS';
 var GET_POST = 'GET_POST';
 var GET_POST_REPLIES = 'GET_POST_REPLIES';
 var GET_USER = 'GET_USER';
+var RESET_FORUM_POSTS_STATE = 'RESET_FORUM_POSTS_STATE';
+var RESET_POSTS_STATE = 'RESET_POSTS_STATE';
 /* Actions Creator */
 
 var getAllForumsAction = function getAllForumsAction() {
@@ -73971,6 +73977,16 @@ var getForumPostsAction = function getForumPostsAction(id) {
     };
   }();
 };
+var resetForumPostsStateAction = function resetForumPostsStateAction() {
+  return {
+    type: RESET_FORUM_POSTS_STATE
+  };
+};
+var resetPostsStateAction = function resetPostsStateAction() {
+  return {
+    type: RESET_POSTS_STATE
+  };
+};
 var getPostAction = function getPostAction(postId) {
   return /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(dispatch) {
@@ -74004,23 +74020,32 @@ var getPostAction = function getPostAction(postId) {
 };
 var getUserAction = function getUserAction(userId) {
   return /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(dispatch) {
-      var response;
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(dispatch, getState) {
+      var userExist, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              _context6.next = 2;
+              userExist = getState().users.some(function (user) {
+                return user.id === userId;
+              });
+
+              if (userExist) {
+                _context6.next = 6;
+                break;
+              }
+
+              _context6.next = 4;
               return _apis_UserApi__WEBPACK_IMPORTED_MODULE_3__["default"].get("/".concat(userId));
 
-            case 2:
+            case 4:
               response = _context6.sent;
               dispatch({
                 type: GET_USER,
                 payload: response.data
               });
 
-            case 4:
+            case 6:
             case "end":
               return _context6.stop();
           }
@@ -74028,7 +74053,7 @@ var getUserAction = function getUserAction(userId) {
       }, _callee6);
     }));
 
-    return function (_x7) {
+    return function (_x7, _x8) {
       return _ref6.apply(this, arguments);
     };
   }();
@@ -74059,7 +74084,7 @@ var getPostRepliesAction = function getPostRepliesAction(postId) {
       }, _callee7);
     }));
 
-    return function (_x8) {
+    return function (_x9) {
       return _ref7.apply(this, arguments);
     };
   }();
@@ -74352,9 +74377,7 @@ var myStyle = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Loading */ "./resources/js/app/components/Loading.js");
-
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Loading */ "./resources/js/app/components/Loading.js");
 
 
 
@@ -74364,7 +74387,7 @@ var NavSection = function NavSection(props) {
       className: "nav-section"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", props.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", props.content));
   } else {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loading__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loading__WEBPACK_IMPORTED_MODULE_1__["default"], null);
   }
 };
 
@@ -74506,12 +74529,12 @@ var Thread = function Thread(props) {
     className: "profile-pic"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "https://unsplash.it/200/200",
-    alt: props.user.name
+    alt: ""
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "profile-username"
-  }, props.user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "profile-date"
-  }, "Joined: ", props.user.created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Joined:")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-10"
   }, props.content)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row thread-foot"
@@ -74550,9 +74573,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var Forum = function Forum(props) {
   var getPostsAndUsersAction = props.getPostsAndUsersAction,
+      resetForumPostsStateAction = props.resetForumPostsStateAction,
       posts = props.posts;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getPostsAndUsersAction(props.match.params.forumId);
+    return function cleanup() {
+      resetForumPostsStateAction();
+    };
   }, []);
 
   var render = function render() {
@@ -74598,7 +74625,8 @@ var mapStateToPorps = function mapStateToPorps(state) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToPorps, {
-  getPostsAndUsersAction: _actions__WEBPACK_IMPORTED_MODULE_1__["getPostsAndUsersAction"]
+  getPostsAndUsersAction: _actions__WEBPACK_IMPORTED_MODULE_1__["getPostsAndUsersAction"],
+  resetForumPostsStateAction: _actions__WEBPACK_IMPORTED_MODULE_1__["resetForumPostsStateAction"]
 })(Forum));
 
 /***/ }),
@@ -74715,14 +74743,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Post = function Post(props) {
-  var getPost = props.getPost,
-      getPostReplies = props.getPostReplies;
-  var _props$match$params = props.match.params,
-      postId = _props$match$params.postId,
-      forumId = _props$match$params.forumId;
-  var forumName = Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    getPost(forumId, postId);
-    getPostReplies(forumId, postId);
+  var getPostAction = props.getPostAction,
+      getPostRepliesAction = props.getPostRepliesAction,
+      resetPostsStateAction = props.resetPostsStateAction;
+  var postId = props.match.params.postId;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    getPostAction(postId);
+    getPostRepliesAction(postId);
+    return function () {
+      resetPostsStateAction();
+    };
   }, []);
 
   var renderPost = function renderPost() {
@@ -74737,8 +74767,7 @@ var Post = function Post(props) {
         text: myPost.title
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
         created: myPost.created_at,
-        content: myPost.content,
-        user: myPost.user
+        content: myPost.content
       }));
     }
   };
@@ -74752,8 +74781,7 @@ var Post = function Post(props) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
           key: reply.id,
           created: reply.created_at,
-          content: reply.content,
-          user: reply.user
+          content: reply.content
         });
       });
     }
@@ -74771,14 +74799,7 @@ var Post = function Post(props) {
     className: "breadcrumb-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/"
-  }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "breadcrumb-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-    to: "/forums/".concat(props.post.post.forum && props.post.post.forum.id)
-  }, props.post.post.forum && props.post.post.forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "breadcrumb-item active",
-    "aria-current": "page"
-  }, props.post.post && props.post.post.title))), renderPost(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Home")))), renderPost(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "replies"
   }, renderReplies())));
 };
@@ -74790,8 +74811,9 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
-  getPost: _actions__WEBPACK_IMPORTED_MODULE_3__["getPost"],
-  getPostReplies: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostReplies"]
+  getPostAction: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostAction"],
+  getPostRepliesAction: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostRepliesAction"],
+  resetPostsStateAction: _actions__WEBPACK_IMPORTED_MODULE_3__["resetPostsStateAction"]
 })(Post));
 
 /***/ }),
@@ -74818,7 +74840,6 @@ var ForumsReducer = function ForumsReducer() {
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_ALL_FORUMS"]:
-      console.log(action.payload);
       return {
         isLoading: false,
         data: action.payload.data
@@ -74877,6 +74898,10 @@ var PostsReducer = function PostsReducer() {
       });
       break;
 
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RESET_POSTS_STATE"]:
+      return initState;
+      break;
+
     default:
       return state;
   }
@@ -74914,6 +74939,9 @@ var PostsReducer = function PostsReducer() {
       };
       break;
 
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RESET_FORUM_POSTS_STATE"]:
+      return initState;
+
     default:
       return state;
   }
@@ -74950,6 +74978,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var UsersReducer = function UsersReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
+  console.log(state);
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_USER"]:

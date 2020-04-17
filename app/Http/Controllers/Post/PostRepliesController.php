@@ -9,11 +9,8 @@ use Illuminate\Http\Request;
 use App\Reply;
 class PostRepliesController extends Controller
 {
-    public function index(Forum $forum,Post $post) {
-        if(!$forum->posts->contains($post->id)){
-            return response()->json(['success'=>false,'data'=>'Page not Found'],404);
-        }
-        $replies = $post->replies()->get();
+    public function index($id) {
+        $replies = Post::findOrFail($id)->replies()->get();
         return response()->json(['success'=>true,'data'=>$replies],200);
     }
      /**

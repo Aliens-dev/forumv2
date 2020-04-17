@@ -15,13 +15,13 @@ const Thread = (props) => {
             <div className="row thread-main">
                 <div className="col-2 profile-section">
                     <div className="profile-pic">
-                        <img src="https://unsplash.it/200/200" alt={props.user.name} />
+                        <img src="https://unsplash.it/200/200" alt='' />
                     </div>
                     <div className="profile-username">
-                        {props.user.name}
+                        
                     </div>
                     <div className="profile-date">
-                        Joined: {props.user.created_at}
+                        Joined: 
                     </div>
                 </div>
                 <div className="col-10">

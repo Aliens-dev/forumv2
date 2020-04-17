@@ -13,6 +13,10 @@ export const GET_FORUM_POSTS = 'GET_FORUM_POSTS';
 export const GET_POST = 'GET_POST';
 export const GET_POST_REPLIES = 'GET_POST_REPLIES';
 export const GET_USER = 'GET_USER';
+export const RESET_FORUM_POSTS_STATE = 'RESET_FORUM_POSTS_STATE';
+export const RESET_POSTS_STATE = 'RESET_POSTS_STATE';
+
+
 
 /* Actions Creator */
 
@@ -46,6 +50,17 @@ export const getForumPostsAction= (id) => async dispatch  =>{
     });
 }
 
+export const resetForumPostsStateAction = () => {
+    return {
+        type:RESET_FORUM_POSTS_STATE,
+    }
+}
+
+export const resetPostsStateAction = () => {
+    return {
+        type:RESET_POSTS_STATE,
+    }
+}
 
 export const getPostAction = postId => async dispatch => {
     let response = await PostApi.get(`/${postId}`);
@@ -55,12 +70,15 @@ export const getPostAction = postId => async dispatch => {
     });
 }
 
-export const getUserAction = userId => async dispatch => {
-    let response = await UserApi.get(`/${userId}`)
-    dispatch({
-        type: GET_USER,
-        payload: response.data,
-    })
+export const getUserAction = userId => async (dispatch,getState) => {
+    const userExist = getState().users.some(user => user.id === userId);
+    if(!userExist) {
+        let response = await UserApi.get(`/${userId}`)
+        dispatch({
+            type: GET_USER,
+            payload: response.data,
+        })
+    }
 }
 
 export const getPostRepliesAction = (postId) => async dispatch => {

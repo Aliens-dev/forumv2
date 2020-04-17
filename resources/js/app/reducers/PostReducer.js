@@ -1,4 +1,4 @@
-import { GET_POST, GET_POST_REPLIES } from "../actions";
+import { GET_POST, GET_POST_REPLIES,RESET_POSTS_STATE } from "../actions";
 
 const initState = {
     post : {},
@@ -14,6 +14,9 @@ const PostsReducer = (state = initState, action) => {
             break;
         case GET_POST_REPLIES:
             return {...state,repliesLoading:false, replies : action.payload.data};
+            break;
+        case RESET_POSTS_STATE :
+            return initState;
             break;
         default : return state;
     }

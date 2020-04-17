@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import { getPost, getPostReplies } from '../actions';
+import { getPostAction, getPostRepliesAction,resetPostsStateAction } from '../actions';
 import Thread from '../components/Thread';
 import TextWidget from '../components/TextWidget';
 import Loading from '../components/Loading';
 
 const Post = props => {
-
-    const { getPost,getPostReplies } = props;
-    const {postId, forumId} = props.match.params;
-
-    const forumName = 
+    const { getPostAction,getPostRepliesAction,resetPostsStateAction } = props;
+    const {postId} = props.match.params;
 
     useEffect(()=> {
-        getPost(forumId,postId)
-        getPostReplies(forumId,postId)
+        getPostAction(postId)
+        getPostRepliesAction(postId)
+        return ()=> {
+            resetPostsStateAction()
+        }
     },[])
     const renderPost = () => {
         if(props.post.postLoading){
@@ -26,7 +26,7 @@ const Post = props => {
             return (
                 <div className="post">
                     <TextWidget text={myPost.title} />
-                    <Thread created={myPost.created_at} content={myPost.content} user={myPost.user} />
+                    <Thread created={myPost.created_at} content={myPost.content}  />
                 </div>
             )
         }
@@ -38,7 +38,7 @@ const Post = props => {
             const myReplies = props.post.replies;
             return myReplies.map(reply => {
                 return (
-                    <Thread key={reply.id} created={reply.created_at} content={reply.content} user={reply.user} />
+                    <Thread key={reply.id} created={reply.created_at} content={reply.content} />
                 )
             });
         }
@@ -49,8 +49,6 @@ const Post = props => {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                        <li className="breadcrumb-item"><Link to={`/forums/${props.post.post.forum && props.post.post.forum.id}`}>{ props.post.post.forum &&props.post.post.forum.name }</Link></li>
-                        <li className="breadcrumb-item active" aria-current="page">{props.post.post && props.post.post.title}</li>
                     </ol>
                 </nav>
                 { renderPost() }
@@ -66,4 +64,4 @@ const mapStateToProps = (state) => {
         post : state.post,
     }
 }
-export default connect(mapStateToProps, {getPost,getPostReplies})(Post);
+export default connect(mapStateToProps, {getPostAction,getPostRepliesAction,resetPostsStateAction })(Post);

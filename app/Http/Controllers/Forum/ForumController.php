@@ -19,12 +19,12 @@ class ForumController extends Controller
     public function index()
     {
         $forums = Forum::select('id','name')
-            ->withCount('posts')->orderBy('id')->get();
+                        ->withCount('posts')->orderBy('id')->get();
         foreach($forums as $forum) {
             $forum->latest_post = $forum->posts()
-                                ->select('title','user_id','created_at')
-                                ->orderByDesc('created_at')
-                                ->first();
+                            ->select('title','user_id','created_at')
+                            ->orderByDesc('created_at')
+                            ->first();
         }
         return response()->json(['success'=>true,'data'=>$forums],200);
     }

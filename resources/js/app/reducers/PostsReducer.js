@@ -1,4 +1,4 @@
-import { GET_FORUM_POSTS } from "../actions";
+import { GET_FORUM_POSTS,RESET_FORUM_POSTS_STATE } from "../actions";
 
 const initState = {
     isLoading : true,
@@ -10,6 +10,8 @@ const PostsReducer = (state = initState, action) => {
         case GET_FORUM_POSTS:
             return { isLoading:false, data : action.payload.data};
             break;
+        case RESET_FORUM_POSTS_STATE : 
+            return initState;
         default : return state;
     }
 }
