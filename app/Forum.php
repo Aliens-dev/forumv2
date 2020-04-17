@@ -16,7 +16,7 @@ class Forum extends Model
     }
 
     public function replies(){
-        return $this->hasManyThrough('App\Post','App\Reply');
+        return $this->hasManyThrough('App\Reply','App\Post');
     }
     protected function serializeDate(DateTimeInterface $date)
     {

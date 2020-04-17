@@ -1,12 +1,12 @@
 import { GET_USER } from "../actions";
 
 
-
 const UsersReducer = (state= [], action) => {
-    console.log(state)
     switch(action.type) {
         case GET_USER:
-            return [...state, action.payload.data];
+            // JSON.stringify(obj1) === JSON.stringify(obj2) 
+            let myState = state.filter(user => user.id !== action.payload.data.id);
+            return [...myState, action.payload.data];
             break;
         default : return state;
     }

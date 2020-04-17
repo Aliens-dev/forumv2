@@ -14,6 +14,10 @@
         </style>
     </head>
     <body>
+            <?php
+                 $é = "new word";
+                 echo $é;
+            ?>
         <div id="app"></div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

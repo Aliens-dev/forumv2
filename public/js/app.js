@@ -190,6 +190,466 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 /***/ }),
 
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js ***!
+  \********************************************************************************/
+/*! exports provided: ScriptLoader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScriptLoader", function() { return ScriptLoader; });
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Utils */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+var createState = function () {
+    return {
+        listeners: [],
+        scriptId: Object(_Utils__WEBPACK_IMPORTED_MODULE_0__["uuid"])('tiny-script'),
+        scriptLoaded: false
+    };
+};
+var CreateScriptLoader = function () {
+    var state = createState();
+    var injectScriptTag = function (scriptId, doc, url, callback) {
+        var scriptTag = doc.createElement('script');
+        scriptTag.referrerPolicy = 'origin';
+        scriptTag.type = 'application/javascript';
+        scriptTag.id = scriptId;
+        scriptTag.src = url;
+        var handler = function () {
+            scriptTag.removeEventListener('load', handler);
+            callback();
+        };
+        scriptTag.addEventListener('load', handler);
+        if (doc.head) {
+            doc.head.appendChild(scriptTag);
+        }
+    };
+    var load = function (doc, url, callback) {
+        if (state.scriptLoaded) {
+            callback();
+        }
+        else {
+            state.listeners.push(callback);
+            if (!doc.getElementById(state.scriptId)) {
+                injectScriptTag(state.scriptId, doc, url, function () {
+                    state.listeners.forEach(function (fn) { return fn(); });
+                    state.scriptLoaded = true;
+                });
+            }
+        }
+    };
+    // Only to be used by tests.
+    var reinitialize = function () {
+        state = createState();
+    };
+    return {
+        load: load,
+        reinitialize: reinitialize
+    };
+};
+var ScriptLoader = CreateScriptLoader();
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js ***!
+  \***************************************************************************/
+/*! exports provided: getTinymce */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTinymce", function() { return getTinymce; });
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var getGlobal = function () { return (typeof window !== 'undefined' ? window : global); };
+var getTinymce = function () {
+    var global = getGlobal();
+    return global && global.tinymce ? global.tinymce : null;
+};
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js ***!
+  \*************************************************************************/
+/*! exports provided: isFunction, bindHandlers, uuid, isTextarea, mergePlugins */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFunction", function() { return isFunction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bindHandlers", function() { return bindHandlers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "uuid", function() { return uuid; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTextarea", function() { return isTextarea; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergePlugins", function() { return mergePlugins; });
+/* harmony import */ var _components_EditorPropTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/EditorPropTypes */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+var isFunction = function (x) { return typeof x === 'function'; };
+var isEventProp = function (name) {
+    return name in _components_EditorPropTypes__WEBPACK_IMPORTED_MODULE_0__["eventPropTypes"];
+};
+var findEventHandlers = function (props) {
+    return Object.keys(props)
+        .filter(isEventProp)
+        .filter(function (name) { return isFunction(props[name]); })
+        .map(function (name) { return ({
+        handler: props[name],
+        eventName: name.substring(2)
+    }); });
+};
+var bindHandlers = function (editor, props, boundHandlers) {
+    findEventHandlers(props).forEach(function (found) {
+        // Unbind old handler
+        var oldHandler = boundHandlers[found.eventName];
+        if (isFunction(oldHandler)) {
+            editor.off(found.eventName, oldHandler);
+        }
+        // Bind new handler
+        var newHandler = function (e) { return found.handler(e, editor); };
+        boundHandlers[found.eventName] = newHandler;
+        editor.on(found.eventName, newHandler);
+    });
+};
+var unique = 0;
+var uuid = function (prefix) {
+    var date = new Date();
+    var time = date.getTime();
+    var random = Math.floor(Math.random() * 1000000000);
+    unique++;
+    return prefix + '_' + random + unique + String(time);
+};
+var isTextarea = function (element) {
+    return element !== null && element.tagName.toLowerCase() === 'textarea';
+};
+var normalizePluginArray = function (plugins) {
+    if (typeof plugins === 'undefined' || plugins === '') {
+        return [];
+    }
+    return Array.isArray(plugins) ? plugins : plugins.split(' ');
+};
+var mergePlugins = function (initPlugins, inputPlugins) {
+    return normalizePluginArray(initPlugins).concat(normalizePluginArray(inputPlugins));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js ***!
+  \*************************************************************************************/
+/*! exports provided: Editor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Editor", function() { return Editor; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ScriptLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ScriptLoader */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js");
+/* harmony import */ var _TinyMCE__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TinyMCE */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js");
+/* harmony import */ var _EditorPropTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditorPropTypes */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_5__);
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+
+
+
+var Editor = /** @class */ (function (_super) {
+    __extends(Editor, _super);
+    function Editor(props) {
+        var _this = _super.call(this, props) || this;
+        _this.initialise = function () {
+            var finalInit = __assign(__assign({}, _this.props.init), { target: _this.elementRef.current, readonly: _this.props.disabled, inline: _this.inline, plugins: Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["mergePlugins"])(_this.props.init && _this.props.init.plugins, _this.props.plugins), toolbar: _this.props.toolbar || (_this.props.init && _this.props.init.toolbar), setup: function (editor) {
+                    _this.editor = editor;
+                    editor.on('init', function (e) {
+                        _this.initEditor(e, editor);
+                    });
+                    if (_this.props.init && typeof _this.props.init.setup === 'function') {
+                        _this.props.init.setup(editor);
+                    }
+                } });
+            if (Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["isTextarea"])(_this.elementRef.current)) {
+                _this.elementRef.current.style.visibility = '';
+            }
+            Object(_TinyMCE__WEBPACK_IMPORTED_MODULE_2__["getTinymce"])().init(finalInit);
+        };
+        _this.id = _this.props.id || Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["uuid"])('tiny-react');
+        _this.elementRef = react__WEBPACK_IMPORTED_MODULE_0__["createRef"]();
+        _this.inline = _this.props.inline ? _this.props.inline : _this.props.init && _this.props.init.inline;
+        _this.boundHandlers = {};
+        return _this;
+    }
+    Editor.prototype.componentDidUpdate = function (prevProps) {
+        if (this.editor && this.editor.initialized) {
+            Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["bindHandlers"])(this.editor, this.props, this.boundHandlers);
+            this.currentContent = this.currentContent || this.editor.getContent({ format: this.props.outputFormat });
+            if (typeof this.props.value === 'string' && this.props.value !== prevProps.value && this.props.value !== this.currentContent) {
+                this.editor.setContent(this.props.value);
+            }
+            if (typeof this.props.disabled === 'boolean' && this.props.disabled !== prevProps.disabled) {
+                this.editor.setMode(this.props.disabled ? 'readonly' : 'design');
+            }
+        }
+    };
+    Editor.prototype.componentDidMount = function () {
+        if (Object(_TinyMCE__WEBPACK_IMPORTED_MODULE_2__["getTinymce"])() !== null) {
+            this.initialise();
+        }
+        else if (this.elementRef.current && this.elementRef.current.ownerDocument) {
+            _ScriptLoader__WEBPACK_IMPORTED_MODULE_1__["ScriptLoader"].load(this.elementRef.current.ownerDocument, this.getScriptSrc(), this.initialise);
+        }
+    };
+    Editor.prototype.componentWillUnmount = function () {
+        if (Object(_TinyMCE__WEBPACK_IMPORTED_MODULE_2__["getTinymce"])() !== null) {
+            Object(_TinyMCE__WEBPACK_IMPORTED_MODULE_2__["getTinymce"])().remove(this.editor);
+        }
+    };
+    Editor.prototype.render = function () {
+        return this.inline ? this.renderInline() : this.renderIframe();
+    };
+    Editor.prototype.getScriptSrc = function () {
+        var channel = this.props.cloudChannel;
+        var apiKey = this.props.apiKey ? this.props.apiKey : 'no-api-key';
+        return Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(this.props.tinymceScriptSrc) ?
+            "https://cdn.tiny.cloud/1/" + apiKey + "/tinymce/" + channel + "/tinymce.min.js" :
+            this.props.tinymceScriptSrc;
+    };
+    Editor.prototype.initEditor = function (initEvent, editor) {
+        var _this = this;
+        var value = typeof this.props.value === 'string' ? this.props.value : typeof this.props.initialValue === 'string' ? this.props.initialValue : '';
+        editor.setContent(value);
+        if (Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(this.props.onEditorChange)) {
+            editor.on('change keyup setcontent', function (e) {
+                var newContent = editor.getContent({ format: _this.props.outputFormat });
+                if (newContent !== _this.currentContent) {
+                    _this.currentContent = newContent;
+                    if (Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(_this.props.onEditorChange)) {
+                        _this.props.onEditorChange(_this.currentContent, editor);
+                    }
+                }
+            });
+        }
+        if (Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(this.props.onInit)) {
+            this.props.onInit(initEvent, editor);
+        }
+        Object(_Utils__WEBPACK_IMPORTED_MODULE_3__["bindHandlers"])(editor, this.props, this.boundHandlers);
+    };
+    Editor.prototype.renderInline = function () {
+        var _a = this.props.tagName, tagName = _a === void 0 ? 'div' : _a;
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](tagName, {
+            ref: this.elementRef,
+            id: this.id
+        });
+    };
+    Editor.prototype.renderIframe = function () {
+        return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]('textarea', {
+            ref: this.elementRef,
+            style: { visibility: 'hidden' },
+            name: this.props.textareaName,
+            id: this.id
+        });
+    };
+    Editor.propTypes = _EditorPropTypes__WEBPACK_IMPORTED_MODULE_4__["EditorPropTypes"];
+    Editor.defaultProps = {
+        cloudChannel: '5'
+    };
+    return Editor;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js ***!
+  \**********************************************************************************************/
+/*! exports provided: eventPropTypes, EditorPropTypes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "eventPropTypes", function() { return eventPropTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorPropTypes", function() { return EditorPropTypes; });
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+var eventPropTypes = {
+    onActivate: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onAddUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforeAddUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforeExecCommand: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforeGetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforeRenderUI: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforeSetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBeforePaste: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onBlur: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onChange: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onClearUndos: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onClick: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onContextMenu: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onCopy: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onCut: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDblclick: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDeactivate: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDirty: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDrag: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDragDrop: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDragEnd: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDragGesture: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDragOver: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onDrop: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onExecCommand: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onFocus: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onFocusIn: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onFocusOut: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onGetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onHide: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onInit: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onKeyDown: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onKeyPress: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onKeyUp: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onLoadContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseDown: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseEnter: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseLeave: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseMove: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseOut: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseOver: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onMouseUp: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onNodeChange: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onObjectResizeStart: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onObjectResized: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onObjectSelected: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onPaste: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onPostProcess: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onPostRender: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onPreProcess: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onProgressState: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onRedo: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onRemove: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onReset: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onSaveContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onSelectionChange: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onSetAttrib: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onSetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onShow: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onSubmit: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"],
+    onVisualAid: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"]
+};
+var EditorPropTypes = __assign({ apiKey: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], id: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], inline: prop_types__WEBPACK_IMPORTED_MODULE_0__["bool"], init: prop_types__WEBPACK_IMPORTED_MODULE_0__["object"], initialValue: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], onEditorChange: prop_types__WEBPACK_IMPORTED_MODULE_0__["func"], outputFormat: prop_types__WEBPACK_IMPORTED_MODULE_0__["oneOf"](['html', 'text']), value: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], tagName: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], cloudChannel: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], plugins: prop_types__WEBPACK_IMPORTED_MODULE_0__["oneOfType"]([prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], prop_types__WEBPACK_IMPORTED_MODULE_0__["array"]]), toolbar: prop_types__WEBPACK_IMPORTED_MODULE_0__["oneOfType"]([prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], prop_types__WEBPACK_IMPORTED_MODULE_0__["array"]]), disabled: prop_types__WEBPACK_IMPORTED_MODULE_0__["bool"], textareaName: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"], tinymceScriptSrc: prop_types__WEBPACK_IMPORTED_MODULE_0__["string"] }, eventPropTypes);
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js ***!
+  \*************************************************************************/
+/*! exports provided: Editor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Editor */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Editor", function() { return _components_Editor__WEBPACK_IMPORTED_MODULE_0__["Editor"]; });
+
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -6534,6 +6994,25 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/EditorStyle.scss":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/app/assets/styles/EditorStyle.scss ***!
+  \********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".tox-tinymce {\n  border: 1px solid #EEE !important;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/HomeNavbarStyle.scss":
 /*!************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/app/assets/styles/HomeNavbarStyle.scss ***!
@@ -6584,7 +7063,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".home-page {\n  background-color: #F3F3F3;\n  padding: 20px 0;\n}\n.home-page .post-section {\n  background-color: #FFF;\n  padding: 15px 10px;\n  margin: 0 0 10px 0;\n  border-radius: 3px;\n  border: 1px solid #FaFaFa;\n}\n.home-page .post-section .post-info {\n  display: grid;\n  grid-template-columns: 50px 1fr;\n  align-items: center;\n  padding: 0;\n}\n.home-page .post-section .post-info .icon {\n  display: flex;\n}\n.home-page .post-section .post-info .title {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.home-page .post-section .post-info .title .post-title {\n  font-size: 17px;\n  font-weight: 600;\n}\n.home-page .post-section .post-info .title .post-title a {\n  color: #505050;\n}\n.home-page .post-section .post-info .title .post-title a:hover {\n  color: #8c8c8c;\n}\n.home-page .post-section .post-info .title .post-description {\n  font-size: 12px;\n  color: #8c8c8c;\n  text-transform: capitalize;\n}\n.home-page .post-section .post-details {\n  display: grid;\n  grid-template-columns: 60px 1fr 2fr;\n  grid-column-gap: 5px;\n}\n.home-page .post-section .post-details > div {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  font-size: 11px;\n  color: #8c8c8c;\n  font-weight: 600;\n}\n.home-page .post-section .post-details > div > span:last-child {\n  font-size: 12px;\n  color: #505050;\n  text-align: center;\n}\n.home-page .post-section .post-details > div:last-child {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  font-size: 12px;\n}\n.home-page .post-section .post-details > div:last-child > span:last-child {\n  font-size: 12px;\n}", ""]);
+exports.push([module.i, ".home-page {\n  background-color: #F3F3F3;\n  padding: 20px 0;\n}\n.home-page .post-section {\n  background-color: #FFF;\n  padding: 15px 10px;\n  margin: 0 0 10px 0;\n  border-radius: 3px;\n  border: 1px solid #FaFaFa;\n}\n.home-page .post-section .post-info {\n  display: grid;\n  grid-template-columns: 50px 1fr;\n  padding: 0;\n}\n.home-page .post-section .post-info .icon {\n  display: flex;\n}\n.home-page .post-section .post-info .title {\n  display: flex;\n  flex-direction: column;\n}\n.home-page .post-section .post-info .title .post-title {\n  font-size: 16px;\n  font-weight: 500;\n}\n.home-page .post-section .post-info .title .post-title a {\n  color: #505050;\n}\n.home-page .post-section .post-info .title .post-title a:hover {\n  color: #8c8c8c;\n}\n.home-page .post-section .post-info .title .post-description {\n  font-size: 12px;\n  color: #8c8c8c;\n  text-transform: capitalize;\n}\n.home-page .post-section .post-details {\n  display: grid;\n  grid-template-columns: 60px 1fr 1fr;\n  grid-column-gap: 5px;\n}\n.home-page .post-section .post-details > div {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  font-size: 11px;\n  color: #8c8c8c;\n  font-weight: 600;\n}\n.home-page .post-section .post-details > div > span:last-child {\n  font-size: 12px;\n  color: #505050;\n  text-align: center;\n}\n.home-page .post-section .post-details > div:last-child {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  font-size: 12px;\n}\n.home-page .post-section .post-details > div:last-child > span:last-child {\n  font-size: 12px;\n}", ""]);
 
 // exports
 
@@ -73597,6 +74076,771 @@ function warning(condition, message) {
 
 /***/ }),
 
+/***/ "./node_modules/util/node_modules/inherits/inherits_browser.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/util/node_modules/inherits/inherits_browser.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/util/support/isBufferBrowser.js":
+/*!******************************************************!*\
+  !*** ./node_modules/util/support/isBufferBrowser.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+
+/***/ }),
+
+/***/ "./node_modules/util/util.js":
+/*!***********************************!*\
+  !*** ./node_modules/util/util.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors ||
+  function getOwnPropertyDescriptors(obj) {
+    var keys = Object.keys(obj);
+    var descriptors = {};
+    for (var i = 0; i < keys.length; i++) {
+      descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
+    }
+    return descriptors;
+  };
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  if (typeof process !== 'undefined' && process.noDeprecation === true) {
+    return fn;
+  }
+
+  // Allow for deprecating things in the process of starting up.
+  if (typeof process === 'undefined') {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ "./node_modules/util/support/isBufferBrowser.js");
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = __webpack_require__(/*! inherits */ "./node_modules/util/node_modules/inherits/inherits_browser.js");
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
+
+exports.promisify = function promisify(original) {
+  if (typeof original !== 'function')
+    throw new TypeError('The "original" argument must be of type Function');
+
+  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
+    var fn = original[kCustomPromisifiedSymbol];
+    if (typeof fn !== 'function') {
+      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
+    }
+    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+      value: fn, enumerable: false, writable: false, configurable: true
+    });
+    return fn;
+  }
+
+  function fn() {
+    var promiseResolve, promiseReject;
+    var promise = new Promise(function (resolve, reject) {
+      promiseResolve = resolve;
+      promiseReject = reject;
+    });
+
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+    args.push(function (err, value) {
+      if (err) {
+        promiseReject(err);
+      } else {
+        promiseResolve(value);
+      }
+    });
+
+    try {
+      original.apply(this, args);
+    } catch (err) {
+      promiseReject(err);
+    }
+
+    return promise;
+  }
+
+  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
+
+  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+    value: fn, enumerable: false, writable: false, configurable: true
+  });
+  return Object.defineProperties(
+    fn,
+    getOwnPropertyDescriptors(original)
+  );
+}
+
+exports.promisify.custom = kCustomPromisifiedSymbol
+
+function callbackifyOnRejected(reason, cb) {
+  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
+  // Because `null` is a special error value in callbacks which means "no error
+  // occurred", we error-wrap so the callback consumer can distinguish between
+  // "the promise rejected with null" or "the promise fulfilled with undefined".
+  if (!reason) {
+    var newReason = new Error('Promise was rejected with a falsy value');
+    newReason.reason = reason;
+    reason = newReason;
+  }
+  return cb(reason);
+}
+
+function callbackify(original) {
+  if (typeof original !== 'function') {
+    throw new TypeError('The "original" argument must be of type Function');
+  }
+
+  // We DO NOT return the promise as it gives the user a false sense that
+  // the promise is actually somehow related to the callback's execution
+  // and that the callback throwing will reject the promise.
+  function callbackified() {
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var maybeCb = args.pop();
+    if (typeof maybeCb !== 'function') {
+      throw new TypeError('The last argument must be of type Function');
+    }
+    var self = this;
+    var cb = function() {
+      return maybeCb.apply(self, arguments);
+    };
+    // In true node style we process the callback on `nextTick` with all the
+    // implications (stack, `uncaughtException`, `async_hooks`)
+    original.apply(this, args)
+      .then(function(ret) { process.nextTick(cb, null, ret) },
+            function(rej) { process.nextTick(callbackifyOnRejected, rej, cb) });
+  }
+
+  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
+  Object.defineProperties(callbackified,
+                          getOwnPropertyDescriptors(original));
+  return callbackified;
+}
+exports.callbackify = callbackify;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
 /***/ "./node_modules/value-equal/esm/value-equal.js":
 /*!*****************************************************!*\
   !*** ./node_modules/value-equal/esm/value-equal.js ***!
@@ -73802,12 +75046,12 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*******************************************!*\
   !*** ./resources/js/app/actions/index.js ***!
   \*******************************************/
-/*! exports provided: GET_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, getAllForumsAction, getForumAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, getPostAction, getUserAction, getPostRepliesAction */
+/*! exports provided: FETCH_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, getAllForumsAction, fetchForum, getPostsAndUsersAction, getForumPostsAction, getPostAction, getRepliesAndUsersAction, getPostRepliesAction, getUserAction, resetForumPostsStateAction, resetPostsStateAction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_FORUM", function() { return GET_FORUM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_FORUM", function() { return FETCH_FORUM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_ALL_FORUMS", function() { return GET_ALL_FORUMS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_FORUM_POSTS", function() { return GET_FORUM_POSTS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_POST", function() { return GET_POST; });
@@ -73816,14 +75060,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_FORUM_POSTS_STATE", function() { return RESET_FORUM_POSTS_STATE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_POSTS_STATE", function() { return RESET_POSTS_STATE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllForumsAction", function() { return getAllForumsAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumAction", function() { return getForumAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchForum", function() { return fetchForum; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostsAndUsersAction", function() { return getPostsAndUsersAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumPostsAction", function() { return getForumPostsAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostAction", function() { return getPostAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRepliesAndUsersAction", function() { return getRepliesAndUsersAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostRepliesAction", function() { return getPostRepliesAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAction", function() { return getUserAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetForumPostsStateAction", function() { return resetForumPostsStateAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetPostsStateAction", function() { return resetPostsStateAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostAction", function() { return getPostAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAction", function() { return getUserAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostRepliesAction", function() { return getPostRepliesAction; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../apis/ForumsPage */ "./resources/js/app/apis/ForumsPage.js");
@@ -73844,7 +75089,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* Actions  */
 
-var GET_FORUM = 'GET_FORUM';
+var FETCH_FORUM = 'FETCH_FORUM';
 var GET_ALL_FORUMS = 'GET_ALL_FORUMS';
 var GET_FORUM_POSTS = 'GET_FORUM_POSTS';
 var GET_POST = 'GET_POST';
@@ -73885,7 +75130,7 @@ var getAllForumsAction = function getAllForumsAction() {
     };
   }();
 };
-var getForumAction = function getForumAction(forumId) {
+var fetchForum = function fetchForum(id) {
   return /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dispatch) {
       var response;
@@ -73894,12 +75139,12 @@ var getForumAction = function getForumAction(forumId) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return _apis_PostApi__WEBPACK_IMPORTED_MODULE_2__["default"].get("/".concat(postId));
+              return _apis_ForumsPage__WEBPACK_IMPORTED_MODULE_1__["default"].get("/".concat(id));
 
             case 2:
               response = _context2.sent;
               dispatch({
-                type: GET_FORUM,
+                type: FETCH_FORUM,
                 payload: response.data
               });
 
@@ -73977,16 +75222,6 @@ var getForumPostsAction = function getForumPostsAction(id) {
     };
   }();
 };
-var resetForumPostsStateAction = function resetForumPostsStateAction() {
-  return {
-    type: RESET_FORUM_POSTS_STATE
-  };
-};
-var resetPostsStateAction = function resetPostsStateAction() {
-  return {
-    type: RESET_POSTS_STATE
-  };
-};
 var getPostAction = function getPostAction(postId) {
   return /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(dispatch) {
@@ -74018,34 +75253,24 @@ var getPostAction = function getPostAction(postId) {
     };
   }();
 };
-var getUserAction = function getUserAction(userId) {
+var getRepliesAndUsersAction = function getRepliesAndUsersAction(id) {
   return /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(dispatch, getState) {
-      var userExist, response;
+      var userIds;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              userExist = getState().users.some(function (user) {
-                return user.id === userId;
+              _context6.next = 2;
+              return dispatch(getPostRepliesAction(id));
+
+            case 2:
+              userIds = lodash__WEBPACK_IMPORTED_MODULE_4___default.a.uniq(lodash__WEBPACK_IMPORTED_MODULE_4___default.a.map(getState().post.replies, 'user_id'));
+              userIds.map(function (userId) {
+                return dispatch(getUserAction(userId));
               });
-
-              if (userExist) {
-                _context6.next = 6;
-                break;
-              }
-
-              _context6.next = 4;
-              return _apis_UserApi__WEBPACK_IMPORTED_MODULE_3__["default"].get("/".concat(userId));
 
             case 4:
-              response = _context6.sent;
-              dispatch({
-                type: GET_USER,
-                payload: response.data
-              });
-
-            case 6:
             case "end":
               return _context6.stop();
           }
@@ -74088,6 +75313,47 @@ var getPostRepliesAction = function getPostRepliesAction(postId) {
       return _ref7.apply(this, arguments);
     };
   }();
+};
+var getUserAction = function getUserAction(userId) {
+  return /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(dispatch) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return _apis_UserApi__WEBPACK_IMPORTED_MODULE_3__["default"].get("/".concat(userId));
+
+            case 2:
+              response = _context8.sent;
+              dispatch({
+                type: GET_USER,
+                payload: response.data
+              });
+
+            case 4:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    }));
+
+    return function (_x10) {
+      return _ref8.apply(this, arguments);
+    };
+  }();
+};
+var resetForumPostsStateAction = function resetForumPostsStateAction() {
+  return {
+    type: RESET_FORUM_POSTS_STATE
+  };
+};
+var resetPostsStateAction = function resetPostsStateAction() {
+  return {
+    type: RESET_POSTS_STATE
+  };
 };
 
 /***/ }),
@@ -74143,6 +75409,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: 'http://127.0.0.1:8000/api/users'
 }));
+
+/***/ }),
+
+/***/ "./resources/js/app/assets/styles/EditorStyle.scss":
+/*!*********************************************************!*\
+  !*** ./resources/js/app/assets/styles/EditorStyle.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./EditorStyle.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/app/assets/styles/EditorStyle.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -74263,6 +75559,46 @@ var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/li
 if(content.locals) module.exports = content.locals;
 
 if(false) {}
+
+/***/ }),
+
+/***/ "./resources/js/app/components/AddNewReply.js":
+/*!****************************************************!*\
+  !*** ./resources/js/app/components/AddNewReply.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tinymce/tinymce-react */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js");
+/* harmony import */ var _assets_styles_EditorStyle_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/styles/EditorStyle.scss */ "./resources/js/app/assets/styles/EditorStyle.scss");
+/* harmony import */ var _assets_styles_EditorStyle_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_styles_EditorStyle_scss__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+var AddNewReply = function AddNewReply(props) {
+  var handleEditorChange = function handleEditorChange(content) {
+    props.handleChange(content);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_1__["Editor"], {
+    init: {
+      height: 300,
+      menubar: false,
+      plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen', 'insertdatetime media table paste code help wordcount'],
+      toolbar: 'undo redo | formatselect | bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist outdent indent | removeformat | help'
+    },
+    onEditorChange: handleEditorChange
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (AddNewReply);
 
 /***/ }),
 
@@ -74523,7 +75859,7 @@ var Thread = function Thread(props) {
     className: "fa fa-clock-o"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, props.created))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row thread-main"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, props.user && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-2 profile-section"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "profile-pic"
@@ -74532,9 +75868,9 @@ var Thread = function Thread(props) {
     alt: ""
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "profile-username"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, props.user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "profile-date"
-  }, "Joined:")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Joined: ", props.user.created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-10"
   }, props.content)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row thread-foot"
@@ -74691,7 +76027,7 @@ var Home = function Home(props) {
           className: "posts"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Threads"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, forum.posts_count)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "messages"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, forum.replies_count)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "latest"
         }, forum.latest_post ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", forum.latest_post.created_at) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "No Posts yet."))));
       });
@@ -74734,6 +76070,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Thread__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Thread */ "./resources/js/app/components/Thread.js");
 /* harmony import */ var _components_TextWidget__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/TextWidget */ "./resources/js/app/components/TextWidget.js");
 /* harmony import */ var _components_Loading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Loading */ "./resources/js/app/components/Loading.js");
+/* harmony import */ var _components_AddNewReply__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/AddNewReply */ "./resources/js/app/components/AddNewReply.js");
+
 
 
 
@@ -74744,30 +76082,53 @@ __webpack_require__.r(__webpack_exports__);
 
 var Post = function Post(props) {
   var getPostAction = props.getPostAction,
-      getPostRepliesAction = props.getPostRepliesAction,
-      resetPostsStateAction = props.resetPostsStateAction;
-  var postId = props.match.params.postId;
+      getRepliesAndUsersAction = props.getRepliesAndUsersAction,
+      resetPostsStateAction = props.resetPostsStateAction,
+      fetchForum = props.fetchForum;
+  var _props$match$params = props.match.params,
+      postId = _props$match$params.postId,
+      forumId = _props$match$params.forumId;
+  var myPost = props.post;
+  var forum = props.forums.data.find(function (forum) {
+    return forum.id === myPost.post.forum_id;
+  });
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      newReply = _useState.newReply,
+      setNewReply = _useState.setNewReply;
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getPostAction(postId);
-    getPostRepliesAction(postId);
+    getRepliesAndUsersAction(postId);
+    fetchForum(forumId);
     return function () {
       resetPostsStateAction();
     };
   }, []);
 
+  var handleChange = function handleChange(e) {
+    setNewReply(e);
+  };
+
+  var addReply = function addReply() {
+    if (newReply !== '') {}
+  };
+
   var renderPost = function renderPost() {
-    if (props.post.postLoading) {
+    if (myPost.postLoading) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Loading__WEBPACK_IMPORTED_MODULE_6__["default"], null);
     } else {
-      var myPost = props.post.post;
-      var userName = props.post.post.user && props.post.post.user.name;
+      var user = props.users.find(function (user) {
+        return user.id = myPost.post.user_id;
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TextWidget__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        text: myPost.title
+        text: myPost.post.title
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        created: myPost.created_at,
-        content: myPost.content
+        created: myPost.post.created_at,
+        content: myPost.post.content,
+        user: user
       }));
     }
   };
@@ -74778,10 +76139,14 @@ var Post = function Post(props) {
     } else {
       var myReplies = props.post.replies;
       return myReplies.map(function (reply) {
+        var user = props.users.find(function (user) {
+          return user.id = reply.user_id;
+        });
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Thread__WEBPACK_IMPORTED_MODULE_4__["default"], {
           key: reply.id,
           created: reply.created_at,
-          content: reply.content
+          content: reply.content,
+          user: user
         });
       });
     }
@@ -74799,21 +76164,39 @@ var Post = function Post(props) {
     className: "breadcrumb-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/"
-  }, "Home")))), renderPost(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item"
+  }, " ", forum && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/forums/".concat(forum.id)
+  }, forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "breadcrumb-item active"
+  }, myPost && myPost.post.title))), renderPost(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "replies"
-  }, renderReplies())));
+  }, renderReplies()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "add-reply"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_AddNewReply__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    handleChange: handleChange
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "add-btn"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: addReply,
+    className: "btn btn-primary"
+  }, "Add Reply"))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    post: state.post
+    post: state.post,
+    users: state.users,
+    forums: state.forums
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
   getPostAction: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostAction"],
-  getPostRepliesAction: _actions__WEBPACK_IMPORTED_MODULE_3__["getPostRepliesAction"],
-  resetPostsStateAction: _actions__WEBPACK_IMPORTED_MODULE_3__["resetPostsStateAction"]
+  getRepliesAndUsersAction: _actions__WEBPACK_IMPORTED_MODULE_3__["getRepliesAndUsersAction"],
+  resetPostsStateAction: _actions__WEBPACK_IMPORTED_MODULE_3__["resetPostsStateAction"],
+  fetchForum: _actions__WEBPACK_IMPORTED_MODULE_3__["fetchForum"]
 })(Post));
 
 /***/ }),
@@ -74828,6 +76211,24 @@ var mapStateToProps = function mapStateToProps(state) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var initState = {
   isLoading: true,
@@ -74845,6 +76246,11 @@ var ForumsReducer = function ForumsReducer() {
         data: action.payload.data
       };
       break;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["FETCH_FORUM"]:
+      return _objectSpread({}, state, {
+        data: [].concat(_toConsumableArray(state.data), [action.payload])
+      });
 
     default:
       return state;
@@ -74978,11 +76384,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var UsersReducer = function UsersReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  console.log(state);
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_USER"]:
-      return [].concat(_toConsumableArray(state), [action.payload.data]);
+      // JSON.stringify(obj1) === JSON.stringify(obj2) 
+      var myState = state.filter(function (user) {
+        return user.id !== action.payload.data.id;
+      });
+      return [].concat(_toConsumableArray(myState), [action.payload.data]);
       break;
 
     default:

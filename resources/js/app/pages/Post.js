@@ -1,32 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import { getPostAction, getPostRepliesAction,resetPostsStateAction } from '../actions';
+import { getPostAction,resetPostsStateAction, getRepliesAndUsersAction, fetchForum } from '../actions';
 import Thread from '../components/Thread';
 import TextWidget from '../components/TextWidget';
 import Loading from '../components/Loading';
+import AddNewReply from '../components/AddNewReply';
 
 const Post = props => {
-    const { getPostAction,getPostRepliesAction,resetPostsStateAction } = props;
-    const {postId} = props.match.params;
-
+    const { getPostAction,getRepliesAndUsersAction,resetPostsStateAction,fetchForum } = props;
+    const {postId,forumId} = props.match.params;
+    const myPost = props.post;
+    const forum = props.forums.data.find(forum => forum.id === myPost.post.forum_id);
+    const {newReply,setNewReply} = useState('');
     useEffect(()=> {
         getPostAction(postId)
-        getPostRepliesAction(postId)
+        getRepliesAndUsersAction(postId)
+        fetchForum(forumId);
         return ()=> {
             resetPostsStateAction()
         }
     },[])
+
+    const handleChange = (e) => {
+        setNewReply(e);
+    }
+    const addReply =() => {
+        if(newReply !== ''){
+            
+        }
+    }
     const renderPost = () => {
-        if(props.post.postLoading){
+        if(myPost.postLoading){
             return <Loading />
         }else {
-            const myPost = props.post.post;
-            const userName= props.post.post.user && props.post.post.user.name;
+            const user = props.users.find(user=> user.id = myPost.post.user_id);
             return (
                 <div className="post">
-                    <TextWidget text={myPost.title} />
-                    <Thread created={myPost.created_at} content={myPost.content}  />
+                    <TextWidget text={myPost.post.title} />
+                    <Thread created={myPost.post.created_at} content={myPost.post.content} user={user} />
                 </div>
             )
         }
@@ -37,8 +49,9 @@ const Post = props => {
         }else {
             const myReplies = props.post.replies;
             return myReplies.map(reply => {
+                const user = props.users.find(user=> user.id = reply.user_id);
                 return (
-                    <Thread key={reply.id} created={reply.created_at} content={reply.content} />
+                    <Thread key={reply.id} created={reply.created_at} content={reply.content} user={user} />
                 )
             });
         }
@@ -49,11 +62,19 @@ const Post = props => {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item"> { forum && <Link to={`/forums/${forum.id}`}>{ forum.name }</Link> }</li>
+                        <li className="breadcrumb-item active">{myPost && myPost.post.title}</li>
                     </ol>
                 </nav>
                 { renderPost() }
                 <div className="replies">
                     { renderReplies() }
+                </div>
+                <div className="add-reply">
+                    <AddNewReply handleChange={handleChange} />
+                </div>
+                <div className="add-btn">
+                    <button onClick={addReply} className="btn btn-primary">Add Reply</button>
                 </div>
             </div>
         </div>
@@ -62,6 +83,8 @@ const Post = props => {
 const mapStateToProps = (state) => {
     return {
         post : state.post,
+        users : state.users,
+        forums : state.forums,
     }
 }
-export default connect(mapStateToProps, {getPostAction,getPostRepliesAction,resetPostsStateAction })(Post);
+export default connect(mapStateToProps, {getPostAction,getRepliesAndUsersAction,resetPostsStateAction,fetchForum })(Post);

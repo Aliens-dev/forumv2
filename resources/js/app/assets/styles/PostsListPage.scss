@@ -16,7 +16,6 @@ $lightGrey : #8c8c8c;
         .post-info {
             display:grid;
             grid-template-columns: 50px 1fr;
-            align-items: center;
             padding: 0;
             .icon {
                 display:flex;
@@ -24,10 +23,9 @@ $lightGrey : #8c8c8c;
             .title {
                 display:flex;
                 flex-direction: column;
-                justify-content: center;
                 .post-title {
-                    font-size:17px;
-                    font-weight: 600;
+                    font-size:16px;
+                    font-weight: 500;
                     a {
                         color:$grey;
                         &:hover {
@@ -44,7 +42,7 @@ $lightGrey : #8c8c8c;
         }
         .post-details {
             display:grid;
-            grid-template-columns: 60px 1fr 2fr;
+            grid-template-columns: 60px 1fr 1fr;
             grid-column-gap: 5px;
             &>div {
                 display:flex;

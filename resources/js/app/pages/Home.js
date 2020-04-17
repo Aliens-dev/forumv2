@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import '../assets/styles/HomePageStyle.scss';
 import { Link } from 'react-router-dom';
 import Loading from '../components/Loading';
+
 const Home = props => {
     const { getAllForumsAction, forums } = props;
     useEffect(()=> {
@@ -38,7 +39,7 @@ const Home = props => {
                             </div>
                             <div className="messages">
                                 <span>Messages</span>
-                                <span>1</span>
+                                <span>{forum.replies_count}</span>
                             </div>
                             <div className="latest">
                                 { 

@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 /* Actions  */
 
-export const GET_FORUM = 'GET_FORUM';
+export const FETCH_FORUM = 'FETCH_FORUM';
 export const GET_ALL_FORUMS = 'GET_ALL_FORUMS';
 export const GET_FORUM_POSTS = 'GET_FORUM_POSTS';
 export const GET_POST = 'GET_POST';
@@ -15,6 +15,7 @@ export const GET_POST_REPLIES = 'GET_POST_REPLIES';
 export const GET_USER = 'GET_USER';
 export const RESET_FORUM_POSTS_STATE = 'RESET_FORUM_POSTS_STATE';
 export const RESET_POSTS_STATE = 'RESET_POSTS_STATE';
+
 
 
 
@@ -28,12 +29,12 @@ export const getAllForumsAction = () => async dispatch => {
     });
 }
 
-export const getForumAction = forumId => async dispatch => {
-    let response = await PostApi.get(`/${postId}`);
+export const fetchForum = (id) => async dispatch=> {
+    let response = await ForumsPage.get(`/${id}`)
     dispatch({
-        type : GET_FORUM,
-        payload: response.data,
-    });
+        type : FETCH_FORUM,
+        payload : response.data,
+    })
 }
 
 export const getPostsAndUsersAction = id => async (dispatch,getState) => {
@@ -50,6 +51,36 @@ export const getForumPostsAction= (id) => async dispatch  =>{
     });
 }
 
+export const getPostAction = postId => async dispatch => {
+    let response = await PostApi.get(`/${postId}`);
+    dispatch({
+        type : GET_POST,
+        payload: response.data,
+    });
+}
+
+export const getRepliesAndUsersAction = id => async (dispatch,getState) => {
+    await dispatch(getPostRepliesAction(id))
+    const userIds = _.uniq(_.map(getState().post.replies,'user_id'));
+    userIds.map(userId => dispatch(getUserAction(userId)));
+}
+
+export const getPostRepliesAction = (postId) => async dispatch => {
+    let response = await PostApi.get(`/${postId}/replies`);
+    dispatch({
+        type : GET_POST_REPLIES,
+        payload: response.data,
+    });
+}
+
+export const getUserAction = userId => async dispatch => {
+    let response = await UserApi.get(`/${userId}`)
+    dispatch({
+        type: GET_USER,
+        payload: response.data,
+    })
+}
+
 export const resetForumPostsStateAction = () => {
     return {
         type:RESET_FORUM_POSTS_STATE,
@@ -61,31 +92,3 @@ export const resetPostsStateAction = () => {
         type:RESET_POSTS_STATE,
     }
 }
-
-export const getPostAction = postId => async dispatch => {
-    let response = await PostApi.get(`/${postId}`);
-    dispatch({
-        type : GET_POST,
-        payload: response.data,
-    });
-}
-
-export const getUserAction = userId => async (dispatch,getState) => {
-    const userExist = getState().users.some(user => user.id === userId);
-    if(!userExist) {
-        let response = await UserApi.get(`/${userId}`)
-        dispatch({
-            type: GET_USER,
-            payload: response.data,
-        })
-    }
-}
-
-export const getPostRepliesAction = (postId) => async dispatch => {
-    let response = await PostApi.get(`/${postId}/replies`);
-    dispatch({
-        type : GET_POST_REPLIES,
-        payload: response.data,
-    });
-}
-
