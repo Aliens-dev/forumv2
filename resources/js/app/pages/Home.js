@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 
 import '../assets/styles/HomePageStyle.scss';
 import { Link } from 'react-router-dom';
+import Loading from '../components/Loading';
 const Home = props => {
     const { getAllForumsAction, forums } = props;
-    const [loading,setLoading] = useState(true);
-
     useEffect(()=> {
         getAllForumsAction();
     },[])
 
     const render = () => {
         if(forums.isLoading) {
-            return <div> Loading ... </div>
+            return <Loading />
         }else {
             return forums.data.map(forum => {
                 return (
@@ -45,7 +44,7 @@ const Home = props => {
                                 { 
                                     forum.latest_post
                                     ? 
-                                    <span> { forum.latest_post.created_at } - { forum.latest_post.user.name }</span>
+                                    <span> { forum.latest_post.created_at }</span>
                                     :
                                     <span>No Posts yet.</span>
                                 }

@@ -13,7 +13,7 @@ class PostRepliesController extends Controller
         if(!$forum->posts->contains($post->id)){
             return response()->json(['success'=>false,'data'=>'Page not Found'],404);
         }
-        $replies = $post->replies()->with('user')->get();
+        $replies = $post->replies()->get();
         return response()->json(['success'=>true,'data'=>$replies],200);
     }
      /**
@@ -31,7 +31,13 @@ class PostRepliesController extends Controller
             'content' => 'min:3',
         ];
         $reply = new Reply($request->all());
-        $saved = $reply->forum()->associate($forum)->user()->associate(1)->post()->associate($post)->save();
+        $saved = $reply->forum()
+                        ->associate($forum)
+                        ->user()
+                        ->associate(1)
+                        ->post()
+                        ->associate($post)
+                        ->save();
         return response()->json(['success'=>$saved],201);
     }
 
@@ -41,9 +47,10 @@ class PostRepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Reply $reply)
     {
-        return Reply::findOrFail($id);
+        //return Reply::findOrFail($id);
+        return response()->json(['success'=>true,'data'=>$reply],200);
     }
 
     /**

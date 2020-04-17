@@ -23,7 +23,6 @@ class ForumController extends Controller
         foreach($forums as $forum) {
             $forum->latest_post = $forum->posts()
                                 ->select('title','user_id','created_at')
-                                ->with('user:id,name')
                                 ->orderByDesc('created_at')
                                 ->first();
         }

@@ -11,7 +11,7 @@ $lightGrey : #8c8c8c;
     }
     background-color: #FFF;
     border-radius:3px;
-    border:1px solid #FDFDFD;
+    border:1px solid #EEE;
     margin:10px 0;
     .thread-calendar {
         display:flex;
@@ -22,11 +22,20 @@ $lightGrey : #8c8c8c;
         min-height:40px;
         height:40px;
         border-bottom: 1px solid #EEE;
+        color:$grey;
+        font-size:12px;
+        span {
+            font-size:12px;
+            margin:0 5px; 
+            &:hover {
+                color:$lightGrey;
+            }
+        }
     }
     .thread-main {
         padding:10px;
         border-bottom: 1px solid #EEE;
-        min-height:200px;
+        min-height:250px;
         .profile-section {
             border-right:1px solid #EEE;
             display:flex;
@@ -35,7 +44,7 @@ $lightGrey : #8c8c8c;
             align-items: center;
             .profile-pic {
                 width: 100px;
-                height:100px;
+                height:120px;
                 border-radius:2px;
                 margin:10px 0;
                 img {
@@ -47,6 +56,14 @@ $lightGrey : #8c8c8c;
             .profile-username {
                 padding:5px 0;
                 margin:5px;
+            }
+            .profile-date {
+                font-size:10px;
+                font-weight: 500;
+                color:$grey;
+                &:hover {
+                    color:$lightGrey;
+                }
             }
         }
     }

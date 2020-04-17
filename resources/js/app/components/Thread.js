@@ -8,16 +8,20 @@ const Thread = (props) => {
         <div className="wrapper">
             <div className="row thread-calendar">
                 <div className="col">
-                    <i className="fa fa-clock-o"></i> {props.created}
+                    <i className="fa fa-clock-o"></i>
+                    <span>{props.created}</span>
                 </div>
             </div>
             <div className="row thread-main">
                 <div className="col-2 profile-section">
                     <div className="profile-pic">
-                        <img src="https://unsplash.it/200/200" alt={props.username} />
+                        <img src="https://unsplash.it/200/200" alt={props.user.name} />
                     </div>
                     <div className="profile-username">
-                        {props.username}
+                        {props.user.name}
+                    </div>
+                    <div className="profile-date">
+                        Joined: {props.user.created_at}
                     </div>
                 </div>
                 <div className="col-10">

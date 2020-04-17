@@ -17,15 +17,11 @@ class ForumPostsController extends Controller
      */
     public function index($id)
     {
-        $forum = Forum::findOrFail($id)->select('name')->first();
         $posts = Forum::findOrFail($id)
                         ->posts()
-                        ->select('id','title','description','user_id','forum_id','created_at')
-                        ->with('user:name,id')
-                        ->with('forum:name,id')
                         ->withCount('replies')
                         ->get();
-        return response()->json(['success'=>true,'data'=>$posts,'forum'=>$forum],200);
+        return response()->json(['success'=>true,'data'=>$posts],200);
     }
     
     /**
@@ -62,7 +58,7 @@ class ForumPostsController extends Controller
         if(!$forum->posts->contains($postId)){
             return response()->json(['success'=>false,'data'=>'Page not Found'],404);
         }
-        $post = Post::where('id',$postId)->with('forum:name,id')->with('user')->first();
+        $post = Post::where('id',$postId)->first();
         return response()->json(['success'=>true,'data'=>$post]);
     }
 
