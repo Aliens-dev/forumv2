@@ -11,13 +11,13 @@
             * {
                 box-sizing: border-box;
             }
+            body {
+                background-color:#F3F3F3;
+                min-height: 100vh;
+            }
         </style>
     </head>
     <body>
-            <?php
-                 $é = "new word";
-                 echo $é;
-            ?>
         <div id="app"></div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

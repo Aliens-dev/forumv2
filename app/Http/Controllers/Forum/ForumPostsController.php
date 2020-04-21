@@ -20,29 +20,6 @@ class ForumPostsController extends Controller
         $posts = Forum::findOrFail($id)->posts()->with('replies')->withCount('replies')->get();
         return response()->json(['success'=>true,'data'=>$posts],200);
     }
-    
-    /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function store(Request $request,$postId)
-    {
-        $rules= [
-            'title'=> 'required|max:60|min:3',
-            'content'=> 'required|min:10',
-            'description' => 'min:10|max:100',
-        ];
-        $validate = Validator::make($request->all(),$rules);
-        if($validate->fails()){
-            return response()->json(['success'=>false,'data'=>$validate->errors()]);
-        }
-        $forum = Forum::findOrFail($postId);
-        $post = new Post($request->all());
-        $saved = $post->forum()->associate($forum)->user()->associate(1)->save();       
-        return response()->json(['success'=>$saved]);
-    }
 
     /**
     * Display the specified resource.

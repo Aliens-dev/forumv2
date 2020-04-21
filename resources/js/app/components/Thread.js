@@ -1,5 +1,6 @@
 import React from 'react'
 import '../assets/styles/ThreadStyle.scss';
+import parse from 'html-react-parser';
 
 const Thread = (props) => {
     return (
@@ -26,7 +27,9 @@ const Thread = (props) => {
                     </div>
                 }
                 <div className="col-10">
-                    {props.content}
+                    {
+                        parse(props.content)
+                    }
                 </div>
             </div>
             <div className="row thread-foot">

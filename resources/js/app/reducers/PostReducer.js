@@ -1,4 +1,4 @@
-import { GET_POST, GET_POST_REPLIES,RESET_POSTS_STATE } from "../actions";
+import { GET_POST, GET_POST_REPLIES,RESET_POSTS_STATE,ADD_NEW_REPLY } from "../actions";
 
 const initState = {
     post : {},
@@ -18,6 +18,8 @@ const PostsReducer = (state = initState, action) => {
         case RESET_POSTS_STATE :
             return initState;
             break;
+        case ADD_NEW_REPLY: 
+            return {...state, replies : [...state.replies, action.payload.data]}
         default : return state;
     }
 }

@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@tinymce/tinymce-react": "^3.5.0",
+        "html-react-parser": "^0.10.3",
         "node-sass": "^4.13.1",
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.1.2",

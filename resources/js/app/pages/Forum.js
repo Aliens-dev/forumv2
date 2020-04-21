@@ -43,7 +43,15 @@ const Forum = props => {
                         <li className="breadcrumb-item active" aria-current="page"></li>
                     </ol>
                 </nav>
-                { render() }
+                <div className="add-post mb-3"> 
+                    { 
+                        console.log(props)
+                    }
+                    {
+                        props.auth.is_Logged && <Link to={`${props.location.pathname}/new`} className="btn btn-primary">Add post</Link>
+                    }
+                </div>
+                { render() }    
             </div>
         </div>
     )
@@ -52,6 +60,7 @@ const Forum = props => {
 const mapStateToPorps = (state) => {
     return {
         posts : state.posts,
+        auth: state.auth,
     }
 }
 export default connect(mapStateToPorps,{ getPostsAndUsersAction,resetForumPostsStateAction })(Forum);

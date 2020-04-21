@@ -1,7 +1,50 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../assets/styles/HomeNavbarStyle.scss';
 import { Link } from 'react-router-dom';
-const Navbar = () => {
+import { connect } from "react-redux";
+import {_Logout, _Refresh} from "../actions";
+
+const Navbar = (props) => {
+    const { _Logout,_Refresh } = props;
+    useEffect(()=> {
+        let data = JSON.parse(localStorage.getItem('data')) || '';
+        if(data === '') {
+            _Refresh()
+        }else {
+            _Refresh(data.token);
+        }
+    },[]);
+    const render = () => {
+        if(props.auth.is_Logged) {
+            return (
+                <div className="navbar-nav ml-auto">
+                    <div className="nav-item ml-2">
+                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    </div>
+                    <div className="nav-item ml-2">
+                        <Link to="/account" className="btn btn-primary" type="submit">my Account</Link>
+                    </div>
+                    <div className="nav-item ml-2">
+                        <button onClick={()=> _Logout(props.auth.token) } className="btn btn-success" type="submit">Logout</button>
+                    </div>
+                </div>
+            )
+        }else {
+            return (
+                <div className="navbar-nav ml-auto">
+                    <div className="nav-item ml-2">
+                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                    </div>
+                    <div className="nav-item ml-2">
+                        <Link to="/create" className="btn btn-primary" type="submit">Signup</Link>
+                    </div>
+                    <div className="nav-item ml-2">
+                        <Link to="/login" className="btn btn-success" type="submit">Login</Link>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     return (
         <div className="navbar navbar-expand-lg">
@@ -27,20 +70,19 @@ const Navbar = () => {
                             </Link>
                         </div>
                      </div>
-                     <div className="navbar-nav ml-auto">
-                        <div className="nav-item ml-2">
-                            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        </div>
-                        <div className="nav-item ml-2">
-                            <button className="btn btn-primary" type="submit">Signup</button>
-                        </div>
-                        <div className="nav-item ml-2">
-                            <button className="btn btn-success" type="submit">Login</button>
-                        </div>
-                    </div>
+                    {
+                        render()
+                    }
                 </div>
             </div>
         </div>
     )
 }
-export default Navbar;
+
+const mapStateToProps = (state) => {
+    return {
+        auth : state.auth,
+    }
+}
+
+export default connect(mapStateToProps, { _Logout,_Refresh })(Navbar);

@@ -19,23 +19,20 @@ class PostRepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Forum $forum,Post $post)
+    public function store(Request $request,Post $post)
     {
-        if(!$forum->posts->contains($post->id)){
-            return response()->json(['success'=>false,'data'=>'Page not Found'],404);
-        }
         $rules = [
             'content' => 'min:3',
         ];
         $reply = new Reply($request->all());
         $saved = $reply->forum()
-                        ->associate($forum)
+                        ->associate($post->forum_id)
                         ->user()
-                        ->associate(1)
+                        ->associate(2)
                         ->post()
                         ->associate($post)
                         ->save();
-        return response()->json(['success'=>$saved],201);
+        return response()->json(['success'=>true,'data'=>$reply],201);
     }
 
     /**
