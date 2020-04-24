@@ -28,43 +28,32 @@ const NewPost = (props) => {
         props.history.push('/forums/'+forumId);
     }
     const render =() => {
-        if(props.auth.loading) {
-            return <Loading/>;
-        }else {
-            if(props.auth.is_Logged) {
-                return (
-                    <div className="new-post mt-2">
-                        <div className="container">
-                            <nav aria-label="breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                                    <li className="breadcrumb-item"> { forum && <Link to={`/forums/${forum.id}`}>{ forum.name }</Link> }</li>
-                                    <li className="breadcrumb-item active" aria-current="page"></li>
-                                </ol>
-                            </nav>
-                            <div className="header">
-
-                            </div>
-                            <form className="add-form">
-                                <div className="form-group">
-                                    <label htmlFor="title">Title</label>
-                                    <input value={title} onChange={e=> setTitle(e.target.value)} type="text" id="title" className="form-control" placeholder="post title"/>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="post">Post</label>
-                                    <MyEditor handleChange={e=> setPost(e)} />
-                                </div>
-                                <div className="form-group">
-                                    <button onClick={addNewPost} className="btn btn-primary">Add post</button>
-                                </div>
-                            </form>
+        return (
+            <div className="new-post mt-2">
+                <div className="container">
+                    <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                            <li className="breadcrumb-item"> { forum && <Link to={`/forums/${forum.id}`}>{ forum.name }</Link> }</li>
+                            <li className="breadcrumb-item active" aria-current="page"></li>
+                        </ol>
+                    </nav>
+                    <form className="add-form">
+                        <div className="form-group">
+                            <label htmlFor="title">Title</label>
+                            <input value={title} onChange={e=> setTitle(e.target.value)} type="text" id="title" className="form-control" placeholder="post title"/>
                         </div>
-                    </div>
-                )
-            }else {
-                return <Redirect to={`/forums/${forumId}`} />
-            }
-        }
+                        <div className="form-group">
+                            <label htmlFor="post">Post</label>
+                            <MyEditor handleChange={e=> setPost(e)} />
+                        </div>
+                        <div className="form-group">
+                            <button onClick={addNewPost} className="btn btn-primary">Add post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        )
     }
     return render();
 

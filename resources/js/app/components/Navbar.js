@@ -5,15 +5,7 @@ import { connect } from "react-redux";
 import {_Logout, _Refresh} from "../actions";
 
 const Navbar = (props) => {
-    const { _Logout,_Refresh } = props;
-    useEffect(()=> {
-        let data = JSON.parse(localStorage.getItem('data')) || '';
-        if(data === '') {
-            _Refresh()
-        }else {
-            _Refresh(data.token);
-        }
-    },[]);
+
     const render = () => {
         if(props.auth.is_Logged) {
             return (

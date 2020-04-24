@@ -24,7 +24,8 @@ export const GET_STATUS = 'GET_STATUS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const REFRESH_SUCCESS = 'REFRESH_SUCCESS';
-
+export const SET_LOADING = 'SET_LOADING';
+export const LOAD_STATE  = 'LOAD_STATE';
 
 
 /* Actions Creator */
@@ -149,12 +150,17 @@ export const _Logout_Failed =() => {
     }
 }
 
-export const _Refresh = (token = '') => async dispatch =>{
-    const headers = token !== '' && { Authorization: 'Bearer '+ token };
-    let response = await axios.post('/api/refresh','',{
-        headers : headers,
-    });
+export const setLoadingAction =() => {
+    return {
+        type: SET_LOADING,
+    }
+}
+
+export const _Refresh = (token) => async dispatch =>{
+    const headers = { Authorization: 'Bearer '+ token };
+    let response = await axios.post('/api/refresh','',{headers});
     if(!response.data.success) {
+        console.log('failed to refresh');
         dispatch(_Login_Failed())
     }else {
         dispatch({

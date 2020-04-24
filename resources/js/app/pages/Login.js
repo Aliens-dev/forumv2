@@ -1,19 +1,18 @@
 import React ,{ useState,useEffect } from 'react';
 import {connect} from "react-redux";
-import { _Login,_Refresh } from "../actions";
+import { _Login,_Refresh,setLoadingAction } from "../actions";
 import Loading from "../components/Loading";
 
 
 const Login = (props) => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-
-    const { _Login , _Refresh} = props;
+    const { _Login , _Refresh,setLoadingAction} = props;
     useEffect(()=> {
-        let data = JSON.parse(localStorage.getItem('data')) || '';
-        if(data === '') {
-            _Refresh()
-        }else {
+        let data = JSON.parse(localStorage.getItem('data'));
+        if(!data || !data.token) {
+            setLoadingAction();
+        }else{
             _Refresh(data.token);
         }
     },[]);
@@ -82,4 +81,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{ _Login, _Refresh })(Login);
+export default connect(mapStateToProps,{ _Login, _Refresh,setLoadingAction })(Login);

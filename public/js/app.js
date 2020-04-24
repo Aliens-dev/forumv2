@@ -76858,13 +76858,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_3__["default"], Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_6__["default"]));
 
 var App = function App() {
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var data = JSON.parse(localStorage.getItem('data')) || null;
+    store.dispatch({
+      type: 'LOAD_STATE',
+      payload: data
+    });
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routes_HomeRoutes__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 };
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_5__["Provider"], {
-  store: Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_3__["default"], Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_6__["default"]))
+  store: store
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null)), document.getElementById('app'));
 
 /***/ }),
@@ -76873,7 +76881,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*******************************************!*\
   !*** ./resources/js/app/actions/index.js ***!
   \*******************************************/
-/*! exports provided: FETCH_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, ADD_NEW_REPLY, ADD_NEW_POST, LOGIN_SUCCESS, LOGIN_FAILED, GET_STATUS, LOGOUT_SUCCESS, LOGOUT_FAILED, REFRESH_SUCCESS, getAllForumsAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, AddNewReplyAction, _getPostAndUser, getPostReplies, _getRepliesAndUsers, addNewPostAction, _Login, _Login_Success, _Logout, _Logout_Success, _Logout_Failed, _Refresh, _Login_Failed, fetchForum, getPostAction, getUserAction */
+/*! exports provided: FETCH_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, ADD_NEW_REPLY, ADD_NEW_POST, LOGIN_SUCCESS, LOGIN_FAILED, GET_STATUS, LOGOUT_SUCCESS, LOGOUT_FAILED, REFRESH_SUCCESS, SET_LOADING, LOAD_STATE, getAllForumsAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, AddNewReplyAction, _getPostAndUser, getPostReplies, _getRepliesAndUsers, addNewPostAction, _Login, _Login_Success, _Logout, _Logout_Success, _Logout_Failed, setLoadingAction, _Refresh, _Login_Failed, fetchForum, getPostAction, getUserAction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76894,6 +76902,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_SUCCESS", function() { return LOGOUT_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_FAILED", function() { return LOGOUT_FAILED; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REFRESH_SUCCESS", function() { return REFRESH_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_LOADING", function() { return SET_LOADING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_STATE", function() { return LOAD_STATE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllForumsAction", function() { return getAllForumsAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostsAndUsersAction", function() { return getPostsAndUsersAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumPostsAction", function() { return getForumPostsAction; });
@@ -76909,6 +76919,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Logout", function() { return _Logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Logout_Success", function() { return _Logout_Success; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Logout_Failed", function() { return _Logout_Failed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLoadingAction", function() { return setLoadingAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Refresh", function() { return _Refresh; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Login_Failed", function() { return _Login_Failed; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchForum", function() { return fetchForum; });
@@ -76953,6 +76964,8 @@ var GET_STATUS = 'GET_STATUS';
 var LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 var LOGOUT_FAILED = 'LOGOUT_FAILED';
 var REFRESH_SUCCESS = 'REFRESH_SUCCESS';
+var SET_LOADING = 'SET_LOADING';
+var LOAD_STATE = 'LOAD_STATE';
 /* Actions Creator */
 
 var getAllForumsAction = function getAllForumsAction() {
@@ -77302,8 +77315,12 @@ var _Logout_Failed = function _Logout_Failed() {
     type: LOGOUT_FAILED
   };
 };
-var _Refresh = function _Refresh() {
-  var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+var setLoadingAction = function setLoadingAction() {
+  return {
+    type: SET_LOADING
+  };
+};
+var _Refresh = function _Refresh(token) {
   return /*#__PURE__*/function () {
     var _ref11 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(dispatch) {
       var headers, response;
@@ -77311,7 +77328,7 @@ var _Refresh = function _Refresh() {
         while (1) {
           switch (_context11.prev = _context11.next) {
             case 0:
-              headers = token !== '' && {
+              headers = {
                 Authorization: 'Bearer ' + token
               };
               _context11.next = 3;
@@ -77323,6 +77340,7 @@ var _Refresh = function _Refresh() {
               response = _context11.sent;
 
               if (!response.data.success) {
+                console.log('failed to refresh');
                 dispatch(_Login_Failed());
               } else {
                 dispatch({
@@ -77843,18 +77861,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Navbar = function Navbar(props) {
-  var _Logout = props._Logout,
-      _Refresh = props._Refresh;
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var data = JSON.parse(localStorage.getItem('data')) || '';
-
-    if (data === '') {
-      _Refresh();
-    } else {
-      _Refresh(data.token);
-    }
-  }, []);
-
   var render = function render() {
     if (props.auth.is_Logged) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77876,7 +77882,7 @@ var Navbar = function Navbar(props) {
         className: "nav-item ml-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _Logout(props.auth.token);
+          return Object(_actions__WEBPACK_IMPORTED_MODULE_4__["_Logout"])(props.auth.token);
         },
         className: "btn btn-success",
         type: "submit"
@@ -78252,12 +78258,13 @@ var Login = function Login(props) {
       setPassword = _useState4[1];
 
   var _Login = props._Login,
-      _Refresh = props._Refresh;
+      _Refresh = props._Refresh,
+      setLoadingAction = props.setLoadingAction;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var data = JSON.parse(localStorage.getItem('data')) || '';
+    var data = JSON.parse(localStorage.getItem('data'));
 
-    if (data === '') {
-      _Refresh();
+    if (!data || !data.token) {
+      setLoadingAction();
     } else {
       _Refresh(data.token);
     }
@@ -78334,7 +78341,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, {
   _Login: _actions__WEBPACK_IMPORTED_MODULE_2__["_Login"],
-  _Refresh: _actions__WEBPACK_IMPORTED_MODULE_2__["_Refresh"]
+  _Refresh: _actions__WEBPACK_IMPORTED_MODULE_2__["_Refresh"],
+  setLoadingAction: _actions__WEBPACK_IMPORTED_MODULE_2__["setLoadingAction"]
 })(Login));
 
 /***/ }),
@@ -78407,66 +78415,54 @@ var NewPost = function NewPost(props) {
   };
 
   var render = function render() {
-    if (props.auth.loading) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], null);
-    } else {
-      if (props.auth.is_Logged) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "new-post mt-2"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-          "aria-label": "breadcrumb"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
-          className: "breadcrumb"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "breadcrumb-item"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          to: "/"
-        }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "breadcrumb-item"
-        }, " ", forum && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          to: "/forums/".concat(forum.id)
-        }, forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "breadcrumb-item active",
-          "aria-current": "page"
-        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "header"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          className: "add-form"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-group"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          htmlFor: "title"
-        }, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          value: title,
-          onChange: function onChange(e) {
-            return setTitle(e.target.value);
-          },
-          type: "text",
-          id: "title",
-          className: "form-control",
-          placeholder: "post title"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-group"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          htmlFor: "post"
-        }, "Post"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_MyEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          handleChange: function handleChange(e) {
-            return setPost(e);
-          }
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "form-group"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: addNewPost,
-          className: "btn btn-primary"
-        }, "Add post")))));
-      } else {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-          to: "/forums/".concat(forumId)
-        });
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "new-post mt-2"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "container"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      "aria-label": "breadcrumb"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+      className: "breadcrumb"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "breadcrumb-item"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      to: "/"
+    }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "breadcrumb-item"
+    }, " ", forum && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      to: "/forums/".concat(forum.id)
+    }, forum.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "breadcrumb-item active",
+      "aria-current": "page"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      className: "add-form"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "form-group"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "title"
+    }, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      value: title,
+      onChange: function onChange(e) {
+        return setTitle(e.target.value);
+      },
+      type: "text",
+      id: "title",
+      className: "form-control",
+      placeholder: "post title"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "form-group"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "post"
+    }, "Post"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_MyEditor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      handleChange: function handleChange(e) {
+        return setPost(e);
       }
-    }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "form-group"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: addNewPost,
+      className: "btn btn-primary"
+    }, "Add post")))));
   };
 
   return render();
@@ -78656,6 +78652,74 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /***/ }),
 
+/***/ "./resources/js/app/pages/ProtectedRoute.js":
+/*!**************************************************!*\
+  !*** ./resources/js/app/pages/ProtectedRoute.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _components_Loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loading */ "./resources/js/app/components/Loading.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions */ "./resources/js/app/actions/index.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+
+var ProtectedRoute = function ProtectedRoute(_ref) {
+  var component = _ref.component,
+      path = _ref.path,
+      props = _objectWithoutProperties(_ref, ["component", "path"]);
+
+  var getData = JSON.parse(localStorage.getItem('data'));
+  var _Refresh = props._Refresh,
+      auth = props.auth;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (!auth.is_Logged || !getData || !getData.token) {
+      props.history.push('/login');
+    }
+  });
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (getData || getData.token) {
+      _Refresh(getData.token);
+    }
+  }, []);
+
+  if (auth.loading) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Loading__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+  } else {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], _extends({
+      render: component,
+      path: path
+    }, props));
+  }
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, {
+  _Refresh: _actions__WEBPACK_IMPORTED_MODULE_4__["_Refresh"]
+})(ProtectedRoute)));
+
+/***/ }),
+
 /***/ "./resources/js/app/reducers/AuthReducer.js":
 /*!**************************************************!*\
   !*** ./resources/js/app/reducers/AuthReducer.js ***!
@@ -78706,6 +78770,7 @@ var AuthReducer = function AuthReducer() {
       break;
 
     case _actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_SUCCESS"]:
+      localStorage.setItem('data', JSON.stringify(initState));
       return _objectSpread({}, initState, {
         loading: false
       });
@@ -78714,6 +78779,11 @@ var AuthReducer = function AuthReducer() {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_FAILED"]:
       return state;
       break;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["SET_LOADING"]:
+      return _objectSpread({}, initState, {
+        loading: false
+      });
 
     case _actions__WEBPACK_IMPORTED_MODULE_0__["REFRESH_SUCCESS"]:
       var d = JSON.parse(localStorage.getItem('data'));
@@ -79024,6 +79094,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/Post */ "./resources/js/app/pages/Post.js");
 /* harmony import */ var _pages_NewPost__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/NewPost */ "./resources/js/app/pages/NewPost.js");
 /* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/Login */ "./resources/js/app/pages/Login.js");
+/* harmony import */ var _pages_ProtectedRoute__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/ProtectedRoute */ "./resources/js/app/pages/ProtectedRoute.js");
+
 
 
 
@@ -79051,7 +79123,7 @@ var HomeRoutes = function HomeRoutes() {
     render: function render(e) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_Forum__WEBPACK_IMPORTED_MODULE_3__["default"], e);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ProtectedRoute__WEBPACK_IMPORTED_MODULE_7__["default"], {
     path: "/forums/:forumId/new",
     exact: true,
     render: function render(e) {
@@ -79082,13 +79154,6 @@ var HomeRoutes = function HomeRoutes() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -79104,6 +79169,15 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status === 401) {
+    return error.response;
+  }
+
+  return error.response;
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

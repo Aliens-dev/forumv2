@@ -22,11 +22,11 @@ class JwtAuthenticate
             $user = JWTAuth::parseToken()->authenticate();
         }catch (\Exception $e){
             if($e instanceof TokenInvalidException) {
-                return response()->json(['success'=>false,'message'=>'Invalid Token']);
+                return response()->json(['success'=>false,'message'=>'Invalid Token'],401);
             }else if ($e instanceof TokenExpiredException) {
-                return response()->json(['success'=>false,'message'=>'Token Expired']);
+                return response()->json(['success'=>false,'message'=>'Token Expired'],401);
             }else {
-                return response()->json(['success'=>false,'message'=>'Token Not Found']);
+                return response()->json(['success'=>false,'message'=>'Token Not Found'],401);
             }
         }
         return $next($request);
