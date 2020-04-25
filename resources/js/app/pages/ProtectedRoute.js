@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component,path,...props }) => {
     const getData = JSON.parse(localStorage.getItem('data'));
     const { _Refresh,auth } = props;
     useEffect(()=> {
-        if(!auth.is_Logged || !getData || !getData.token) {
+        if(!getData || !getData.token) {
             props.history.push('/login');
         }
     });

@@ -3,14 +3,11 @@ import MyEditor from '../components/MyEditor';
 import {Link, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewPostAction, fetchForum } from '../actions';
-import Loading from "../components/Loading";
-
-
 
 const NewPost = (props) => {
     const [title,setTitle] = useState('');
     const [post,setPost] = useState('');
-    const {addNewPostAction} = props;
+    const {addNewPostAction,fetchForum} = props;
     const forumId = props.match.params.forumId;
     const forum = props.forums.data.find(forum => forum.id == forumId);
     useEffect(()=> {
@@ -25,7 +22,6 @@ const NewPost = (props) => {
         data.append('content',post);
         data.append('forum_id',forumId);
         addNewPostAction(data)
-        props.history.push('/forums/'+forumId);
     }
     const render =() => {
         return (
@@ -35,9 +31,17 @@ const NewPost = (props) => {
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                             <li className="breadcrumb-item"> { forum && <Link to={`/forums/${forum.id}`}>{ forum.name }</Link> }</li>
-                            <li className="breadcrumb-item active" aria-current="page"></li>
+                            <li className="breadcrumb-item active" aria-current="page">Add new post</li>
                         </ol>
                     </nav>
+                    {
+                        props.alert.isSetMessage &&
+                        <div
+                            className={`alert ${ props.alert.type === 1 ? 'alert-success' : 'alert-danger'}`}
+                        >
+                            { props.alert.message }
+                        </div>
+                    }
                     <form className="add-form">
                         <div className="form-group">
                             <label htmlFor="title">Title</label>
@@ -64,6 +68,7 @@ const mapStateToProps = (state) => {
     return {
         forums:state.forums,
         auth : state.auth,
+        alert : state.alert,
     }
 }
-export default connect(mapStateToProps, {addNewPostAction})(NewPost);
+export default connect(mapStateToProps, {addNewPostAction,fetchForum})(NewPost);

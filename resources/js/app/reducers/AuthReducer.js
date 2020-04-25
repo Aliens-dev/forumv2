@@ -1,4 +1,12 @@
-import {LOGIN_FAILED, LOGIN_SUCCESS, SET_LOADING, REFRESH_SUCCESS, LOGOUT_FAILED, LOGOUT_SUCCESS} from "../actions";
+import {
+    LOGIN_FAILED,
+    LOGIN_SUCCESS,
+    SET_LOADING,
+    REFRESH_SUCCESS,
+    LOGOUT_FAILED,
+    LOGOUT_SUCCESS,
+    LOAD_STATE
+} from "../actions";
 
 const initState = {
     user: {},
@@ -10,6 +18,12 @@ const initState = {
 
 const AuthReducer = (state = initState, action) => {
     switch(action.type) {
+        case LOAD_STATE:
+            if(action.payload) {
+                return {...state,...action.payload}
+            }
+            return state;
+            break;
         case LOGIN_SUCCESS :
             const data = {
                 user : action.payload.user,
@@ -28,7 +42,6 @@ const AuthReducer = (state = initState, action) => {
         case LOGOUT_SUCCESS:
             localStorage.setItem('data',JSON.stringify(initState));
             return {...initState, loading:false};
-
             break;
         case LOGOUT_FAILED :
             return state;

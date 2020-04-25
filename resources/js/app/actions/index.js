@@ -26,9 +26,19 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const REFRESH_SUCCESS = 'REFRESH_SUCCESS';
 export const SET_LOADING = 'SET_LOADING';
 export const LOAD_STATE  = 'LOAD_STATE';
+export const INIT_STATE  = 'INIT_STATE';
+export const POST_EDIT_SUCCESS  = 'POST_EDIT_SUCCESS';
+export const POST_EDIT_FAILED  = 'POST_EDIT_FAILED';
+export const SET_MESSAGE  = 'SET_MESSAGE';
+export const RESET_MESSAGE  = 'RESET_MESSAGE';
+export const DELETE_POST  = 'DELETE_POST';
+
+
 
 
 /* Actions Creator */
+
+
 
 export const getAllForumsAction = () => async dispatch => {
     let response = await ForumsPage.get('/');
@@ -96,21 +106,126 @@ export const _getRepliesAndUsers = (postId) => async (dispatch,getState) => {
 };
 
 export const addNewPostAction = (data) => async (dispatch,getState) => {
-    console.log('inside');
     let response = await PostApi.post('/',data,{
         headers : {
             Authorization: 'Bearer '+ getState().auth.token,
         }
     });
+    if(response.data.success) {
+        dispatch(setMessage('Sucessfully Updated!',1));
+    }else {
+        dispatch(setMessage('Failed to Update!',0));
+    }
     dispatch({
         type: ADD_NEW_POST,
         payload: response.data,
     })
 };
 
+export const setLoadingAction =() => {
+    return {
+        type: SET_LOADING,
+    }
+}
+
+
+// Get Single Records : 
+
+export const fetchForum = (id) => async dispatch=> {
+    let response = await ForumsPage.get(`/${id}`);
+    dispatch({
+        type : FETCH_FORUM,
+        payload : response.data,
+    })
+};
+// Post
+export const getPostAction = postId => async dispatch => {
+    let response = await PostApi.get(`/${postId}`);
+    dispatch({
+        type : GET_POST,
+        payload: response.data,
+    });
+};
+
+export const editPostAction = (postId,data) => async (dispatch,getState) => {
+    let response = await PostApi.patch(`/${postId}`,data, {
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.success) {
+        dispatch(setMessage(response.data.message,1));
+    }else {
+        dispatch(setMessage(response.data.message,0));
+    }
+};
+
+export const deletePostAction = (postId) => async (dispatch,getState) => {
+    let response = await PostApi.delete(`/${postId}`,{
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.success) {
+        dispatch({
+            type: DELETE_POST,
+            payload: postId,
+        });
+        dispatch(setMessage(response.data.message,1));
+    }else {
+        dispatch(setMessage(response.data.message,0));
+    }
+};
+
+export const setMessage = (message,type) => dispatch =>{
+    dispatch({
+        type: SET_MESSAGE,
+        payload: { message, type,},
+    })
+    setTimeout(()=> {
+        dispatch(resetMessage())
+    },5000);
+};
+
+export const resetMessage = () => {
+    return {
+        type: RESET_MESSAGE,
+    }
+};
+
+
+
+
+// user
+export const getUserAction = userId => async dispatch => {
+    let response = await UserApi.get(`/${userId}`)
+    dispatch({
+        type: GET_USER,
+        payload: response.data,
+    })
+};
+
+
+// Auth Action
+
+export const loadState = () => dispatch => {
+    const data = JSON.parse(localStorage.getItem('data'));
+    if(data && data.token) {
+        dispatch(_Refresh(data.token))
+    }else {
+        dispatch(initState());
+    }
+};
+
+export const initState = () => {
+    return {
+        type: INIT_STATE,
+    }
+};
+
+
 export const _Login = (data) => async dispatch => {
     let response = await axios.post('/api/login',data);
-    console.log(response.data)
     if(response.data.success) {
         dispatch(_Login_Success(response.data));
     }else {
@@ -122,6 +237,12 @@ export const _Login_Success = (data) => {
     return {
         type: LOGIN_SUCCESS,
         payload: data,
+    }
+};
+
+export const _Login_Failed = () => {
+    return {
+        type: LOGIN_FAILED,
     }
 };
 
@@ -150,17 +271,11 @@ export const _Logout_Failed =() => {
     }
 }
 
-export const setLoadingAction =() => {
-    return {
-        type: SET_LOADING,
-    }
-}
 
 export const _Refresh = (token) => async dispatch =>{
     const headers = { Authorization: 'Bearer '+ token };
     let response = await axios.post('/api/refresh','',{headers});
     if(!response.data.success) {
-        console.log('failed to refresh');
         dispatch(_Login_Failed())
     }else {
         dispatch({
@@ -169,36 +284,3 @@ export const _Refresh = (token) => async dispatch =>{
     }
 };
 
-export const _Login_Failed = () => {
-    return {
-        type: LOGIN_FAILED,
-    }
-};
-
-
-// Get Single Records : 
-
-export const fetchForum = (id) => async dispatch=> {
-    let response = await ForumsPage.get(`/${id}`);
-    dispatch({
-        type : FETCH_FORUM,
-        payload : response.data,
-    })
-};
-
-export const getPostAction = postId => async dispatch => {
-    let response = await PostApi.get(`/${postId}`);
-    dispatch({
-        type : GET_POST,
-        payload: response.data,
-    });
-};
-
-export const getUserAction = userId => async dispatch => {
-    console.log(userId);
-    let response = await UserApi.get(`/${userId}`)
-    dispatch({
-        type: GET_USER,
-        payload: response.data,
-    })
-};

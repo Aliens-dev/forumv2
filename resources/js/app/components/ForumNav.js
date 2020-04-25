@@ -2,11 +2,17 @@ import React , {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import NavSection from './NavSection';
 import { connect } from 'react-redux';
-import { getUserAction } from '../actions';
+import { getUserAction,deletePostAction } from '../actions';
 
 
 const ForumNav = (props) => {
     const user = props.users.find(user => user.id === props.userId);
+    const deletePost = () => {
+        let res = confirm('are you sure ?')
+        if(res) {
+            props.deletePostAction(props.postId);
+        }
+    };
     return (
         <div className="row post-section" >
             <div className="col-8 post-info">
@@ -27,6 +33,20 @@ const ForumNav = (props) => {
                 <NavSection title="Created by" content={user && user.name} />
                 <NavSection title="Created at" content={props.createdAt} />
             </div>
+            <div className="editable">
+                {
+                    props.editable &&
+                    (
+                        <div className="dropdown">
+                            <span className="editable gg-more-alt" id="edit" data-toggle="dropdown"></span>
+                            <div className="dropdown-menu" aria-labelledby="edit">
+                                <Link to={`${props.link}/edit`} className="dropdown-item">Edit</Link>
+                                <div className="dropdown-item" onClick={deletePost}>Delete</div>
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
         </div>
     )
 }
@@ -35,4 +55,4 @@ const mapStateToProps = (state) => {
         users : state.users,
     }
 }
-export default connect(mapStateToProps, { getUserAction })(ForumNav);
+export default connect(mapStateToProps, { getUserAction,deletePostAction })(ForumNav);

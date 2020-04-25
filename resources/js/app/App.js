@@ -10,13 +10,6 @@ import Navbar from './components/Navbar';
 
 const store = createStore(reducers,applyMiddleware(thunk));
 const App =() => {
-    useEffect(()=> {
-        let data = JSON.parse(localStorage.getItem('data')) || null;
-        store.dispatch({
-            type: 'LOAD_STATE',
-            payload: data,
-        });
-    },[]);
     return (
         <Router>
             <Navbar />

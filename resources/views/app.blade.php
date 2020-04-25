@@ -6,10 +6,13 @@
         <title>Forumv2</title>
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href='https://css.gg/css' rel='stylesheet'>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
             * {
-                box-sizing: border-box;
+                padding:0;
+                margin:0;
+                box-sizing: border-box !important;
             }
             body {
                 background-color:#F3F3F3;
