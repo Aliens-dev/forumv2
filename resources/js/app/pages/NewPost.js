@@ -34,14 +34,7 @@ const NewPost = (props) => {
                             <li className="breadcrumb-item active" aria-current="page">Add new post</li>
                         </ol>
                     </nav>
-                    {
-                        props.alert.isSetMessage &&
-                        <div
-                            className={`alert ${ props.alert.type === 1 ? 'alert-success' : 'alert-danger'}`}
-                        >
-                            { props.alert.message }
-                        </div>
-                    }
+                    
                     <form className="add-form">
                         <div className="form-group">
                             <label htmlFor="title">Title</label>

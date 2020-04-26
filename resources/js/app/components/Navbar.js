@@ -5,7 +5,10 @@ import { connect } from "react-redux";
 import {_Logout, _Refresh} from "../actions";
 
 const Navbar = (props) => {
-
+    const logout = () => {
+        console.log('here');
+        props._Logout(props.auth.token)
+    }
     const render = () => {
         if(props.auth.is_Logged) {
             return (
@@ -17,7 +20,7 @@ const Navbar = (props) => {
                         <Link to="/account" className="btn btn-primary" type="submit">my Account</Link>
                     </div>
                     <div className="nav-item ml-2">
-                        <button onClick={()=> _Logout(props.auth.token) } className="btn btn-success" type="submit">Logout</button>
+                        <button onClick={logout} className="btn btn-danger" type="submit">Logout</button>
                     </div>
                 </div>
             )

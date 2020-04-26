@@ -3,6 +3,7 @@
 import ForumsPage from '../apis/ForumsPage';
 import PostApi from '../apis/PostApi';
 import UserApi from '../apis/UserApi';
+import ReplyApi from '../apis/ReplyApi';
 import _ from 'lodash';
 import axios from "axios";
 
@@ -32,6 +33,8 @@ export const POST_EDIT_FAILED  = 'POST_EDIT_FAILED';
 export const SET_MESSAGE  = 'SET_MESSAGE';
 export const RESET_MESSAGE  = 'RESET_MESSAGE';
 export const DELETE_POST  = 'DELETE_POST';
+export const DELETE_REPLY  = 'DELETE_REPLY';
+export const GET_REPLY  = 'GET_REPLY';
 
 
 
@@ -112,9 +115,9 @@ export const addNewPostAction = (data) => async (dispatch,getState) => {
         }
     });
     if(response.data.success) {
-        dispatch(setMessage('Sucessfully Updated!',1));
+        dispatch(setMessage(response.data.message,1));
     }else {
-        dispatch(setMessage('Failed to Update!',0));
+        dispatch(setMessage(response.data.message,0));
     }
     dispatch({
         type: ADD_NEW_POST,
@@ -177,6 +180,48 @@ export const deletePostAction = (postId) => async (dispatch,getState) => {
     }
 };
 
+
+export const getReplyAction = replyId => async dispatch => {
+    let response = await ReplyApi.get(`/${replyId}`);
+    dispatch({
+        type : GET_REPLY,
+        payload: response.data,
+    });
+};
+
+
+export const editReplyAction = (replyId,data) => async (dispatch,getState) => {
+    let response = await ReplyApi.patch(`/${replyId}`,data, {
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.success) {
+        dispatch(setMessage(response.data.message,1));
+    }else {
+        dispatch(setMessage(response.data.message,0));
+    }
+};
+
+export const deleteReplyAction = (replyId) => async (dispatch,getState) => {
+    let response = await ReplyApi.delete(`/${replyId}`,{
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.success) {
+        dispatch({
+            type: DELETE_REPLY,
+            payload: replyId,
+        });
+        dispatch(setMessage(response.data.message,1));
+    }else {
+        dispatch(setMessage(response.data.message,0));
+    }
+}
+
+
+
 export const setMessage = (message,type) => dispatch =>{
     dispatch({
         type: SET_MESSAGE,
@@ -225,6 +270,15 @@ export const initState = () => {
 
 
 export const _Login = (data) => async dispatch => {
+    axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status === 401) {
+            return error.response;
+        }
+        return error.response;
+    });
+    
     let response = await axios.post('/api/login',data);
     if(response.data.success) {
         dispatch(_Login_Success(response.data));
@@ -247,14 +301,17 @@ export const _Login_Failed = () => {
 };
 
 export const _Logout = (token) => async dispatch =>{
+    console.log('Logout')
     let response = await axios.post('/api/logout','',{
         headers : {
             Authorization: 'Bearer '+ token,
         }
     });
     if(response.data.success) {
+        console.log('Logout success')
         dispatch(_Logout_Success);
     }else {
+        console.log('Logout Faile')
         dispatch(_Logout_Failed);
     }
 };
@@ -273,6 +330,14 @@ export const _Logout_Failed =() => {
 
 
 export const _Refresh = (token) => async dispatch =>{
+    axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status === 401) {
+            return error.response;
+        }
+        return error.response;
+    });
     const headers = { Authorization: 'Bearer '+ token };
     let response = await axios.post('/api/refresh','',{headers});
     if(!response.data.success) {

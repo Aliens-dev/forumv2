@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
 const store = createStore(reducers,applyMiddleware(thunk));
-const App =() => {
+const App =(props) => {
     return (
         <Router>
             <Navbar />

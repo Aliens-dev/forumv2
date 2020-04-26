@@ -1,6 +1,8 @@
 import React from 'react'
 import '../assets/styles/ThreadStyle.scss';
 import parse from 'html-react-parser';
+import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Thread = (props) => {
     return (
@@ -33,10 +35,28 @@ const Thread = (props) => {
                 </div>
             </div>
             <div className="row thread-foot">
-
+                
+            </div>
+            <div className="editable">
+                {
+                    props.editable &&
+                    (
+                        <div className="dropdown">
+                            <span className="editable gg-more-alt" id="edit" data-toggle="dropdown"></span>
+                            <div className="dropdown-menu" aria-labelledby="edit">
+                                <Link to={`${props.link}`} className="dropdown-item">Edit</Link>
+                                <div className="dropdown-item" onClick={()=>props.myAction(props.id)}>Delete</div>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )
 }
-
-export default Thread;
+const mapStateToProps = (state) => {
+    return {
+        state
+    }
+}
+export default connect(mapStateToProps)(Thread);

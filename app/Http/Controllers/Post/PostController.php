@@ -40,12 +40,12 @@ class PostController extends Controller
         ];
         $validate = Validator::make($request->all(),$rules);
         if($validate->fails()){
-            return response()->json(['success'=>false,'data'=>$validate->errors()]);
+            return response()->json(['success'=>false,'message'=>'Please Fill inputs correctly!']);
         }
         $forum = Forum::findOrFail($request->forum_id);
         $post = new Post($request->all());
         $saved = $post->forum()->associate($forum)->user()->associate(JWTAuth::user())->save();
-        return response()->json(['success'=>$saved,'data'=>$post]);
+        return response()->json(['success'=>$saved,'data'=>$post, 'message'=> 'Successfully Added!']);
     }
 
     /**

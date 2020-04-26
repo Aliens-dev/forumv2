@@ -18,7 +18,7 @@ const PostsReducer = (state = initState, action) => {
             break;
         case DELETE_POST:
             let data = state.data.filter(post => post.id !== action.payload);
-            return data;
+            return { isLoading:false,data :data };
             break;
         default : return state;
     }

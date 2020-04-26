@@ -6,6 +6,7 @@ import '../assets/styles/HomePageStyle.scss';
 import { Link } from 'react-router-dom';
 import Loading from '../components/Loading';
 
+
 const Home = props => {
     const { getAllForumsAction, forums } = props;
     useEffect(()=> {

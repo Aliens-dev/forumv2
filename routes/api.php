@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('forums','Forum\ForumController')->except(['create','edit']);
-Route::resource('forums.posts','Forum\ForumPostsController')->except(['create','edit']);
+Route::resource('forums.posts','Forum\ForumPostsController')->only(['index']);
 Route::resource('posts','Post\PostController')->except(['index','edit','create']);
-Route::resource('posts.replies','Post\PostRepliesController')->except(['create','edit']);
+Route::resource('posts.replies','Post\PostRepliesController')->only(['index','store']);
 Route::resource('replies','Reply\ReplyController')->except(['index,create','edit']);
 Route::resource('users','User\UserController')->except(['edit','create']);
 
