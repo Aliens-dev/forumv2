@@ -26,13 +26,14 @@ class PostRepliesController extends Controller
             'content' => 'min:3',
         ];
         $reply = new Reply($request->all());
-        $saved = $reply->forum()
-                        ->associate($post->forum_id)
-                        ->user()
-                        ->associate(Auth::user())
-                        ->post()
-                        ->associate($post)
-                        ->save();
+        $reply->forum()
+                ->associate($post->forum_id)
+                ->user()
+                ->associate(Auth::user())
+                ->post()
+                ->associate($post)
+                ->save();
+        $reply = Reply::find($reply->id);
         return response()->json(['success'=>true,'data'=>$reply],201);
     }
 }

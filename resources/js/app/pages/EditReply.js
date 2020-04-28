@@ -28,7 +28,6 @@ const EditReply = (props) => {
         if(reply.replyLoading) {
             return <Loading />
         }else {
-            console.log("inside",reply.reply.user_id);
             if(auth.user.id !== reply.reply.user_id) {
                 return <Redirect to={`/forums/${forumId}/`} />
             }else {

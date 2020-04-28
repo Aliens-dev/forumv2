@@ -8,7 +8,6 @@ import _ from 'lodash';
 import axios from "axios";
 
 /* Actions  */
-
 export const FETCH_FORUM = 'FETCH_FORUM';
 export const GET_ALL_FORUMS = 'GET_ALL_FORUMS';
 export const GET_FORUM_POSTS = 'GET_FORUM_POSTS';
@@ -35,9 +34,7 @@ export const RESET_MESSAGE  = 'RESET_MESSAGE';
 export const DELETE_POST  = 'DELETE_POST';
 export const DELETE_REPLY  = 'DELETE_REPLY';
 export const GET_REPLY  = 'GET_REPLY';
-
-
-
+export const RESET_USERS = 'RESET_USERS';
 
 /* Actions Creator */
 
@@ -64,7 +61,6 @@ export const getForumPostsAction= (id) => async dispatch  =>{
         payload: response.data,
     });
 };
-
 export const resetForumPostsStateAction = () => {
     return {
         type:RESET_FORUM_POSTS_STATE,
@@ -87,6 +83,7 @@ export const AddNewReplyAction = (postId,data) => async (dispatch,getState) => {
         type:ADD_NEW_REPLY,
         payload: response.data,
     })
+    dispatch(getUserAction(getState().auth.user.id))
 };
 
 export const _getPostAndUser = postId => async (dispatch,getState) => {
@@ -239,8 +236,6 @@ export const resetMessage = () => {
 };
 
 
-
-
 // user
 export const getUserAction = userId => async dispatch => {
     let response = await UserApi.get(`/${userId}`)
@@ -250,6 +245,11 @@ export const getUserAction = userId => async dispatch => {
     })
 };
 
+export const resetUsersAction = () => {
+    return {
+        type: RESET_USERS,
+    }
+}
 
 // Auth Action
 
@@ -301,17 +301,14 @@ export const _Login_Failed = () => {
 };
 
 export const _Logout = (token) => async dispatch =>{
-    console.log('Logout')
     let response = await axios.post('/api/logout','',{
         headers : {
             Authorization: 'Bearer '+ token,
         }
     });
     if(response.data.success) {
-        console.log('Logout success')
         dispatch(_Logout_Success);
     }else {
-        console.log('Logout Faile')
         dispatch(_Logout_Failed);
     }
 };

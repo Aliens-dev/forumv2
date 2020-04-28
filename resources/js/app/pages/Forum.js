@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getPostsAndUsersAction,resetForumPostsStateAction,fetchForum } from '../actions';
+import { getPostsAndUsersAction,resetForumPostsStateAction,fetchForum,resetUsersAction } from '../actions';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import ForumNav from '../components/ForumNav';
@@ -7,7 +7,7 @@ import '../assets/styles/PostsListPage.scss';
 import Loading from '../components/Loading';
 
 const Forum = props => {
-    const { getPostsAndUsersAction,resetForumPostsStateAction,posts,auth,fetchForum } = props;
+    const { getPostsAndUsersAction,resetForumPostsStateAction,posts,auth,fetchForum,resetUsersAction } = props;
     const forumId = props.match.params.forumId;
     const forum = props.forums.data.find(forum => forum.id == forumId);
     useEffect(()=> {
@@ -15,6 +15,7 @@ const Forum = props => {
         getPostsAndUsersAction(props.match.params.forumId);
         return function cleanup() {
             resetForumPostsStateAction();
+            resetUsersAction();
         }
     },[]);
 
@@ -67,4 +68,4 @@ const mapStateToPorps = (state) => {
         forums : state.forums,
     }
 }
-export default connect(mapStateToPorps,{ getPostsAndUsersAction,resetForumPostsStateAction,fetchForum })(Forum);
+export default connect(mapStateToPorps,{ getPostsAndUsersAction,resetForumPostsStateAction,fetchForum,resetUsersAction })(Forum);

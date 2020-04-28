@@ -76874,7 +76874,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*******************************************!*\
   !*** ./resources/js/app/actions/index.js ***!
   \*******************************************/
-/*! exports provided: FETCH_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, ADD_NEW_REPLY, ADD_NEW_POST, LOGIN_SUCCESS, LOGIN_FAILED, GET_STATUS, LOGOUT_SUCCESS, LOGOUT_FAILED, REFRESH_SUCCESS, SET_LOADING, LOAD_STATE, INIT_STATE, POST_EDIT_SUCCESS, POST_EDIT_FAILED, SET_MESSAGE, RESET_MESSAGE, DELETE_POST, DELETE_REPLY, GET_REPLY, getAllForumsAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, AddNewReplyAction, _getPostAndUser, getPostReplies, _getRepliesAndUsers, addNewPostAction, setLoadingAction, fetchForum, getPostAction, editPostAction, deletePostAction, getReplyAction, editReplyAction, deleteReplyAction, setMessage, resetMessage, getUserAction, loadState, initState, _Login, _Login_Success, _Login_Failed, _Logout, _Logout_Success, _Logout_Failed, _Refresh */
+/*! exports provided: FETCH_FORUM, GET_ALL_FORUMS, GET_FORUM_POSTS, GET_POST, GET_POST_REPLIES, GET_USER, RESET_FORUM_POSTS_STATE, RESET_POSTS_STATE, ADD_NEW_REPLY, ADD_NEW_POST, LOGIN_SUCCESS, LOGIN_FAILED, GET_STATUS, LOGOUT_SUCCESS, LOGOUT_FAILED, REFRESH_SUCCESS, SET_LOADING, LOAD_STATE, INIT_STATE, POST_EDIT_SUCCESS, POST_EDIT_FAILED, SET_MESSAGE, RESET_MESSAGE, DELETE_POST, DELETE_REPLY, GET_REPLY, RESET_USERS, getAllForumsAction, getPostsAndUsersAction, getForumPostsAction, resetForumPostsStateAction, resetPostsStateAction, AddNewReplyAction, _getPostAndUser, getPostReplies, _getRepliesAndUsers, addNewPostAction, setLoadingAction, fetchForum, getPostAction, editPostAction, deletePostAction, getReplyAction, editReplyAction, deleteReplyAction, setMessage, resetMessage, getUserAction, resetUsersAction, loadState, initState, _Login, _Login_Success, _Login_Failed, _Logout, _Logout_Success, _Logout_Failed, _Refresh */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76905,6 +76905,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_POST", function() { return DELETE_POST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_REPLY", function() { return DELETE_REPLY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_REPLY", function() { return GET_REPLY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_USERS", function() { return RESET_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllForumsAction", function() { return getAllForumsAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostsAndUsersAction", function() { return getPostsAndUsersAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getForumPostsAction", function() { return getForumPostsAction; });
@@ -76926,6 +76927,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setMessage", function() { return setMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetMessage", function() { return resetMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserAction", function() { return getUserAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "resetUsersAction", function() { return resetUsersAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadState", function() { return loadState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initState", function() { return initState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_Login", function() { return _Login; });
@@ -76986,6 +76988,7 @@ var RESET_MESSAGE = 'RESET_MESSAGE';
 var DELETE_POST = 'DELETE_POST';
 var DELETE_REPLY = 'DELETE_REPLY';
 var GET_REPLY = 'GET_REPLY';
+var RESET_USERS = 'RESET_USERS';
 /* Actions Creator */
 
 var getAllForumsAction = function getAllForumsAction() {
@@ -77111,8 +77114,9 @@ var AddNewReplyAction = function AddNewReplyAction(postId, data) {
                 type: ADD_NEW_REPLY,
                 payload: response.data
               });
+              dispatch(getUserAction(getState().auth.user.id));
 
-            case 4:
+            case 5:
             case "end":
               return _context4.stop();
           }
@@ -77560,6 +77564,11 @@ var getUserAction = function getUserAction(userId) {
       return _ref16.apply(this, arguments);
     };
   }();
+};
+var resetUsersAction = function resetUsersAction() {
+  return {
+    type: RESET_USERS
+  };
 }; // Auth Action
 
 var loadState = function loadState() {
@@ -77639,26 +77648,23 @@ var _Logout = function _Logout(token) {
         while (1) {
           switch (_context18.prev = _context18.next) {
             case 0:
-              console.log('Logout');
-              _context18.next = 3;
+              _context18.next = 2;
               return axios__WEBPACK_IMPORTED_MODULE_6___default.a.post('/api/logout', '', {
                 headers: {
                   Authorization: 'Bearer ' + token
                 }
               });
 
-            case 3:
+            case 2:
               response = _context18.sent;
 
               if (response.data.success) {
-                console.log('Logout success');
                 dispatch(_Logout_Success);
               } else {
-                console.log('Logout Faile');
                 dispatch(_Logout_Failed);
               }
 
-            case 5:
+            case 4:
             case "end":
               return _context18.stop();
           }
@@ -78689,8 +78695,6 @@ var EditReply = function EditReply(props) {
     if (reply.replyLoading) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], null);
     } else {
-      console.log("inside", reply.reply.user_id);
-
       if (auth.user.id !== reply.reply.user_id) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
           to: "/forums/".concat(forumId, "/")
@@ -78789,7 +78793,8 @@ var Forum = function Forum(props) {
       resetForumPostsStateAction = props.resetForumPostsStateAction,
       posts = props.posts,
       auth = props.auth,
-      fetchForum = props.fetchForum;
+      fetchForum = props.fetchForum,
+      resetUsersAction = props.resetUsersAction;
   var forumId = props.match.params.forumId;
   var forum = props.forums.data.find(function (forum) {
     return forum.id == forumId;
@@ -78799,6 +78804,7 @@ var Forum = function Forum(props) {
     getPostsAndUsersAction(props.match.params.forumId);
     return function cleanup() {
       resetForumPostsStateAction();
+      resetUsersAction();
     };
   }, []);
 
@@ -78857,7 +78863,8 @@ var mapStateToPorps = function mapStateToPorps(state) {
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToPorps, {
   getPostsAndUsersAction: _actions__WEBPACK_IMPORTED_MODULE_1__["getPostsAndUsersAction"],
   resetForumPostsStateAction: _actions__WEBPACK_IMPORTED_MODULE_1__["resetForumPostsStateAction"],
-  fetchForum: _actions__WEBPACK_IMPORTED_MODULE_1__["fetchForum"]
+  fetchForum: _actions__WEBPACK_IMPORTED_MODULE_1__["fetchForum"],
+  resetUsersAction: _actions__WEBPACK_IMPORTED_MODULE_1__["resetUsersAction"]
 })(Forum));
 
 /***/ }),
@@ -78994,6 +79001,7 @@ var Login = function Login(props) {
       _Refresh = props._Refresh,
       setLoadingAction = props.setLoadingAction;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    console.log(props.history);
     var data = JSON.parse(localStorage.getItem('data'));
 
     if (!data || !data.token) {
@@ -79017,7 +79025,9 @@ var Login = function Login(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Loading__WEBPACK_IMPORTED_MODULE_3__["default"], null);
     } else {
       if (props.auth.is_Logged) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Logged in !");
+        {
+          props.history.action === 'POP' ? props.history.push('/') : props.history.goBack();
+        }
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
           className: "form"
@@ -79909,6 +79919,9 @@ var UsersReducer = function UsersReducer() {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["GET_USER"]:
       return [].concat(_toConsumableArray(state), [action.payload.data]);
       break;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["RESET_USERS"]:
+      return [];
 
     default:
       return state;

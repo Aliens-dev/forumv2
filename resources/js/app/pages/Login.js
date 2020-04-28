@@ -9,6 +9,7 @@ const Login = (props) => {
     const [password,setPassword] = useState('');
     const { _Login , _Refresh,setLoadingAction} = props;
     useEffect(()=> {
+        console.log(props.history)
         let data = JSON.parse(localStorage.getItem('data'));
         if(!data || !data.token) {
             setLoadingAction();
@@ -28,7 +29,9 @@ const Login = (props) => {
             return <Loading />;
         }else {
             if(props.auth.is_Logged) {
-                return <div>Logged in !</div>
+                {
+                    props.history.action === 'POP' ? props.history.push('/') : props.history.goBack() 
+                }
             }else {
                 return (
                     <form className="form">

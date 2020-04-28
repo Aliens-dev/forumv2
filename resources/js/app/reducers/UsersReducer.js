@@ -1,4 +1,4 @@
-import { GET_USER } from "../actions";
+import { GET_USER,RESET_USERS } from "../actions";
 
 
 const UsersReducer = (state = [], action) => {
@@ -6,6 +6,8 @@ const UsersReducer = (state = [], action) => {
         case GET_USER:
             return [...state, action.payload.data];
             break;
+        case RESET_USERS : 
+            return [];    
         default : return state;
     }
     
