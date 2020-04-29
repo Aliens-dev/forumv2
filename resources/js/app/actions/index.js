@@ -35,6 +35,9 @@ export const DELETE_POST  = 'DELETE_POST';
 export const DELETE_REPLY  = 'DELETE_REPLY';
 export const GET_REPLY  = 'GET_REPLY';
 export const RESET_USERS = 'RESET_USERS';
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const SEEN_NOTIFICATION = 'SEEN_NOTIFICATION';
+
 
 /* Actions Creator */
 
@@ -346,3 +349,21 @@ export const _Refresh = (token) => async dispatch =>{
     }
 };
 
+
+
+
+/* Notifications */
+
+
+export const addNotification = (notification) => {
+    return {
+        type : ADD_NOTIFICATION,
+        payload : notification,
+    }
+}
+
+export const seenNotification = () => {
+    return {
+        type: SEEN_NOTIFICATION,
+    }
+}

@@ -8,6 +8,7 @@ use App\Reply;
 use Illuminate\Support\Facades\Auth;
 use App\Forum;
 use App\Post;
+use Illuminate\Support\Facades\Broadcast;
 
 class ReplyController extends Controller
 {

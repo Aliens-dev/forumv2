@@ -43,3 +43,13 @@ window.axios.interceptors.response.use(response => {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+/* import Echo from "laravel-echo"
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '7a2212a47d236d1d98f4',
+    cluster: 'eu',
+    forceTLS: true,
+});
+ */

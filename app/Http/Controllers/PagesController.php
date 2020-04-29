@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PagesController extends Controller
 {
@@ -20,7 +20,7 @@ class PagesController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if ($token = $this->guard()->attempt($credentials)) {
+        if ($token = JWTAuth::attempt($credentials)) {
             return $this->respondWithToken($token);
         }
 
@@ -31,10 +31,7 @@ class PagesController extends Controller
      * Get the authenticated User
      *
      */
-    public function me()
-    {
-        return $this->guard()->user();
-    }
+
 
     /**
      * Log the user out (Invalidate the token)
@@ -43,7 +40,7 @@ class PagesController extends Controller
      */
     public function logout()
     {
-        $this->guard()->logout();
+        JWTAuth::logout();
         return response()->json(['success'=>true]);
     }
 
@@ -54,7 +51,6 @@ class PagesController extends Controller
      */
     public function refresh()
     {
-        //return $this->respondWithToken($this->guard()->refresh());
         return response()->json(['success'=>true]);
     }
 
@@ -70,18 +66,9 @@ class PagesController extends Controller
         return response()->json([
             'success'=> true,
             'access_token' => $token,
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'user' => $this->me(),
+            'expires_in' => 60,
+            'user' => JWTAuth::user(),
         ]);
     }
 
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\Guard
-     */
-    public function guard()
-    {
-        return Auth::guard();
-    }
 }

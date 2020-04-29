@@ -5,18 +5,12 @@ import {connect} from "react-redux";
 import { _Refresh } from "../actions";
 
 const ProtectedRoute = ({ component,path,...props }) => {
-    const getData = JSON.parse(localStorage.getItem('data'));
-    const { _Refresh,auth } = props;
+    const {auth} = props;
     useEffect(()=> {
-        if(!getData || !getData.token) {
+        if(!auth.loading && !auth.is_Logged) {
             props.history.push('/login');
         }
     });
-    useEffect(()=> {
-        if(getData || getData.token){
-            _Refresh(getData.token);
-        }
-    },[]);
     if(auth.loading){
         return <Loading/>
     }else{

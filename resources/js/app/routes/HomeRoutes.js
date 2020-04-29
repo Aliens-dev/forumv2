@@ -11,11 +11,35 @@ import EditReply from "../pages/EditReply";
 import {connect} from "react-redux";
 import { loadState } from '../actions';
 import Alert from '../components/Alert';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+import { addNotification } from '../actions';
+
 
 const HomeRoutes = (props) => {
     useEffect(()=> {
         props.loadState();
     },[]);
+    useEffect(()=> {
+        if(props.auth.is_Logged) {
+            
+            const echo = new Echo({
+                broadcaster: 'pusher',
+                key: '7a2212a47d236d1d98f4',
+                cluster: 'eu',
+                forceTLS: false,
+                auth: {
+                    headers: {
+                        Authorization : "Bearer " + props.auth.token,
+                    },
+                },
+            });
+            echo.private('replies.'+props.auth.user.id)
+                .listen('UserReplied', e=> {
+                    props.addNotification(e);
+            })
+        }
+    },[props.auth]);
     return (
            <div>
                 <Switch>
@@ -38,4 +62,4 @@ const mapStateToProps = (state) => {
         alert : state.alert,
     }
 };
-export default connect(mapStateToProps , { loadState })(HomeRoutes);
+export default connect(mapStateToProps , { loadState,addNotification })(HomeRoutes);

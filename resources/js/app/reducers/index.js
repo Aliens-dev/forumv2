@@ -6,6 +6,7 @@ import UsersReducer from './UsersReducer';
 import AuthReducer from "./AuthReducer";
 import MessagesReducer from './MessagesReducer';
 import ReplyReducer from './ReplyReducer';
+import NotificationReducer from './NotificationReducer';
 
 export default combineReducers ({
     forums : ForumsReducer,
@@ -15,4 +16,5 @@ export default combineReducers ({
     auth : AuthReducer,
     alert : MessagesReducer,
     reply: ReplyReducer,
+    notification : NotificationReducer
 });

@@ -12,5 +12,39 @@ $color : #BEBEBE;
             text-decoration: none;
         }
     }
+    .notification {
+        display:flex;
+        align-items: center;
+        margin:0 20px !important;
+        &:hover {
+            cursor: pointer;
+            color:#EEE;
+        }
+    }
+    .notification-menu {
+        border-radius: 3px;
+        left: -100px;
+        width: 200px;
+        padding: 5px 10px;
+        .notification-item {
+            color:#000;
+        }
+        
+        #notif {
+            position: relative;
+            div {
+                position: absolute;
+                top:-6px;
+                right:-3px;
+                font-size:11px;
+                background-color:#E00;
+                padding:2px;
+                height:8px;
+                width:8px;
+                text-align: center;
+                border-radius: 50%;
+            }
+        }
+    }
     
 }
