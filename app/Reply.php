@@ -22,6 +22,9 @@ class Reply extends Model
     public function forum() {
         return $this->belongsTo('App\Forum');
     }
+    public function likes() {
+        return $this->morphMany('App\Like','likeable');
+    }
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('l m Y');

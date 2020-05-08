@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import {resetPostsStateAction,_getRepliesAndUsers,fetchForum,AddNewReplyAction,_getPostAndUser } from '../actions';
+import {resetPostsStateAction,_getRepliesAndUsers,
+    fetchForum,AddNewReplyAction,_getPostAndUser,
+    setPostLike,setReplyLike
+} from '../actions';
 import { deletePostAction,deleteReplyAction } from '../actions';
 import Thread from '../components/Thread';
 import TextWidget from '../components/TextWidget';
@@ -44,6 +47,13 @@ const Post = props => {
     const deleteReply = (id) => {
         deleteReplyAction(id);
     }
+
+    const postLike = (postId) => {
+        props.setPostLike(postId);
+    }
+    const replyLike = (replyId) => {
+        props.setReplyLike(replyId)
+    }
     const renderPost = () => {
         if(myPost.postLoading){
             return <Loading />
@@ -64,6 +74,8 @@ const Post = props => {
                         myAction={deletePost}
                         id = {myPost.post.id}
                         editable={editable}
+                        likes= {props.post.likes}
+                        setAction = {postLike}
                     />
                 </div>
             )
@@ -90,6 +102,8 @@ const Post = props => {
                         user={user}
                         id = {reply.id}
                         myAction={deleteReply}
+                        likes = {reply.likes}
+                        setAction = {replyLike}
                     />
                 )
             });
@@ -105,7 +119,7 @@ const Post = props => {
                         <li className="breadcrumb-item active">{myPost && myPost.post.title}</li>
                     </ol>
                 </nav>
-                { renderPost() }
+                    { renderPost() }
                 <div className="replies">
                     { renderReplies() }
                 </div>
@@ -142,5 +156,7 @@ export default connect(mapStateToProps,
         AddNewReplyAction,
         _getPostAndUser,
         deletePostAction,
-        deleteReplyAction
+        deleteReplyAction,
+        setPostLike,
+        setReplyLike
     })(Post);

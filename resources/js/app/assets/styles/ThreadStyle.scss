@@ -82,5 +82,25 @@ $lightGrey : #8c8c8c;
         max-height:40px;
         min-height:40px;
         height:40px;
+        display:flex;
+        align-items: center;
+        padding:0 20px;
+        font-weight: 500;
+        font-family: "Roboto";
+        font-size:20px;
+        span:last-child {
+            font-weight: 600;
+            font-size:15px;
+        }
+        .emoji {
+            margin:0 5px; 
+            &:hover {
+                cursor: pointer;
+            }
+            
+        }
+        .emoji-color {
+            color:rgb(86, 103, 250);
+        }
     }
 }

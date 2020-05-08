@@ -37,7 +37,11 @@ export const GET_REPLY  = 'GET_REPLY';
 export const RESET_USERS = 'RESET_USERS';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const SEEN_NOTIFICATION = 'SEEN_NOTIFICATION';
-
+export const GET_POST_LIKES = 'GET_POST_LIKES';
+export const ADD_POST_LIKE = 'ADD_POST_LIKE';
+export const REMOVE_POST_LIKE = 'REMOVE_POST_LIKE';
+export const ADD_REPLY_LIKE = 'ADD_REPLY_LIKE';
+export const REMOVE_REPLY_LIKE = 'REMOVE_REPLY_LIKE';
 
 /* Actions Creator */
 
@@ -92,10 +96,81 @@ export const AddNewReplyAction = (postId,data) => async (dispatch,getState) => {
 export const _getPostAndUser = postId => async (dispatch,getState) => {
     await dispatch(getPostAction(postId));
     dispatch(getUserAction(getState().post.post.user_id));
+    dispatch(getPostLikes(postId));
 };
 
+export const getPostLikes = (postId) => async dispatch => {
+    let response = await PostApi.get(`${postId}/likes`);
+    dispatch({
+        type: GET_POST_LIKES,
+        payload: response.data,
+    })
+}
+
+export const setPostLike = (postId) => async (dispatch,getState) => {
+    let response = await PostApi.post(`${postId}/likes`,'',{
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.data) {
+        dispatch(addPostLike(postId,getState().auth.user.id));
+    }else {
+        dispatch(removePostLike(postId,getState().auth.user.id));
+    }
+}
+
+export const removePostLike = (postId,user_id) => {
+    return {
+        type: REMOVE_POST_LIKE,
+        payload: user_id,
+    }
+}
+export const addPostLike = (postId,user_id) => {
+    return {
+        type: ADD_POST_LIKE,
+        payload: user_id,
+    }
+}
+
+
+export const setReplyLike = (replyId) => async (dispatch,getState) => {
+    let response = await ReplyApi.post(`${replyId}/likes`,'',{
+        headers : {
+            Authorization: 'Bearer '+ getState().auth.token,
+        }
+    });
+    if(response.data.data) {
+        dispatch(addReplyLike(replyId,getState().auth.user.id));
+    }else {
+        dispatch(removeReplyLike(replyId,getState().auth.user.id));
+    }
+}
+
+export const removeReplyLike = (replyId,userId) => {
+    return {
+        type: REMOVE_REPLY_LIKE,
+        payload: {
+            userId,
+            replyId
+        },
+    }
+}
+export const addReplyLike = (replyId,userId) => {
+    return {
+        type: ADD_REPLY_LIKE,
+        payload: {
+            userId,
+            replyId,
+        },
+    }
+}
+
+
+
+
 export const getPostReplies = (postId) => async dispatch  =>{
-    let response = await PostApi(`${postId}/replies`);
+    let response = await PostApi.get(`${postId}/replies`);
     dispatch({
         type: GET_POST_REPLIES,
         payload:  response.data,

@@ -14,6 +14,12 @@ class PostRepliesController extends Controller
 {
     public function index($id) {
         $replies = Post::findOrFail($id)->replies()->get();
+
+        foreach($replies as $reply) {
+            $reply->likes = Reply::find($reply->id)->likes()->get()->pluck('user_id');
+        }
+
+
         return response()->json(['success'=>true,'data'=>$replies],200);
     }
         /**

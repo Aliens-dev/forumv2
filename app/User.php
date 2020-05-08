@@ -40,7 +40,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $date->format('d-m-Y');
     }
-    
+    public function likes() {
+        return $this->hasMany('App\Like');
+    }
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::resource('forums','Forum\ForumController')->except(['create','edit']);
 Route::resource('forums.posts','Forum\ForumPostsController')->only(['index']);
 Route::resource('posts','Post\PostController')->except(['index','edit','create']);
+Route::resource('posts.likes','Post\PostLikesController')->except(['edit','create']);
 Route::resource('posts.replies','Post\PostRepliesController')->only(['index','store']);
-Route::resource('replies','Reply\ReplyController')->except(['index,create','edit']);
+
+Route::resource('replies.likes','Reply\ReplyLikesController')->except(['create','edit']);
+
 Route::resource('users','User\UserController')->except(['edit','create']);
 
 Route::post('/login','PagesController@login');
@@ -25,4 +28,5 @@ Route::post('/login','PagesController@login');
 Route::group(['middleware'=>'auth.jwt'], function () {
     Route::post('/refresh','PagesController@refresh');
     Route::post('/logout','PagesController@logout');
+
 });

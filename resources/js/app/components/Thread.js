@@ -1,10 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../assets/styles/ThreadStyle.scss';
 import parse from 'html-react-parser';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
+import { setPostLike } from '../actions';
+
 
 const Thread = (props) => {
+    const {setPostLike} = props;
+    const setAction = () => {
+        props.setAction(props.id);
+    }
+    const renderLikes = () => {
+        let liked = props.likes && props.likes.find(like => like === props.auth.user.id);
+        if(props.likes && props.likes.length) {
+            return (
+                <div>
+                    <i 
+                        className={`fa fa-thumbs-up emoji ${liked && 'emoji-color'}`} 
+                        onClick={setAction}
+                    ></i>
+                    <span>{ props.likes.length }</span>
+                </div>
+            )
+        }else {
+            return (
+                <div>
+                    <i className="fa fa-thumbs-up emoji" onClick={setAction}></i>
+                </div>
+            )
+        }
+    }
+
     return (
         <div className="wrapper">
             <div className="row thread-calendar">
@@ -35,7 +62,7 @@ const Thread = (props) => {
                 </div>
             </div>
             <div className="row thread-foot">
-                
+               { renderLikes() }
             </div>
             <div className="editable">
                 {
@@ -56,7 +83,9 @@ const Thread = (props) => {
 }
 const mapStateToProps = (state) => {
     return {
-        state
+        auth: state.auth
     }
 }
-export default connect(mapStateToProps)(Thread);
+export default connect(mapStateToProps , {
+    setPostLike,
+})(Thread);

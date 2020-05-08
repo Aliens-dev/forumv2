@@ -23,6 +23,7 @@ class PostController extends Controller
 
     }
     public function show(Post $post) {
+        $post = $post->with('likes')->whereId($post->id)->first();
         return response()->json(['success'=>true,'data'=>$post],200);
     }
     /**
