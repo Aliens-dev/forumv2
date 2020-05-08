@@ -25,6 +25,7 @@ const EditReply = (props) => {
         editReplyAction(replyId,{content})
     };
     const render =() => {
+        console.log(reply);
         if(reply.replyLoading) {
             return <Loading />
         }else {

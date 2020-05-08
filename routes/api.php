@@ -18,7 +18,7 @@ Route::resource('forums.posts','Forum\ForumPostsController')->only(['index']);
 Route::resource('posts','Post\PostController')->except(['index','edit','create']);
 Route::resource('posts.likes','Post\PostLikesController')->except(['edit','create']);
 Route::resource('posts.replies','Post\PostRepliesController')->only(['index','store']);
-
+Route::resource('replies','Reply\ReplyController');
 Route::resource('replies.likes','Reply\ReplyLikesController')->except(['create','edit']);
 
 Route::resource('users','User\UserController')->except(['edit','create']);
