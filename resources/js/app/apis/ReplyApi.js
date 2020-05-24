@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ax = axios.create({
-    baseURL : 'https://forum-v2.herokuapp.com/api/replies',
+    baseURL : '/api/replies',
 });
 
 ax.interceptors.response.use(response => {
