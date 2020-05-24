@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a25f7338-5bfb-4ae9-8883-636763c3efa3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/js/app/apis/ForumsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app/apis/ForumsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app/apis/PostApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app/apis/PostApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app/apis/ReplyApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app/apis/ReplyApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app/apis/UserApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app/apis/UserApi.js" afterDir="false" />
-    </list>
+    <list default="true" id="a25f7338-5bfb-4ae9-8883-636763c3efa3" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -451,16 +446,15 @@
       <workItem from="1587829115202" duration="10106000" />
       <workItem from="1589129966262" duration="3594000" />
       <workItem from="1590019975337" duration="2873000" />
-      <workItem from="1590329518204" duration="1539000" />
+      <workItem from="1590329518204" duration="1798000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72636000" />
+    <option name="totallyTimeSpent" value="72895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.21879195" />
       <window_info id="Structure" order="1" sideWeight="0.50141644" side_tool="true" weight="0.21073826" />
@@ -477,7 +471,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.31360948" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.31360948" />
       <window_info anchor="bottom" id="Thumbnails" order="12" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
