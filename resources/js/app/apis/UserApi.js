@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ax = axios.create({
-    baseURL : '/api/users',
+    baseURL : 'https://forum-v2.herokuapp.com/api/users',
 });
 
 
