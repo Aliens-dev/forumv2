@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PagesController extends Controller
@@ -27,10 +30,24 @@ class PagesController extends Controller
         return response()->json(['success' => false]);
     }
 
-    /**
-     * Get the authenticated User
-     *
-     */
+    public function register(Request $request) {
+        $rules = [
+            'name' => 'required|min:3|max:20',
+            'email' => 'required|email|unique:users',
+            'password' => 'required_with:password_confirmation|same:password_confirmation|min:3|max:20',
+            'password_confirmation' => "required",
+        ];
+        $validate = Validator::make($request->all(),$rules);
+        if($validate->fails()){
+            return response()->json(['success'=>false,'errors'=>$validate->errors()]);
+        }
+        $user = new User();
+        $user->password = Hash::make($request->password);
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->save();
+        return response()->json(['success'=>true,'message'=>'Successfully created']);
+    }
 
 
     /**

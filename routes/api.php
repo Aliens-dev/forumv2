@@ -20,13 +20,10 @@ Route::resource('posts.likes','Post\PostLikesController')->except(['edit','creat
 Route::resource('posts.replies','Post\PostRepliesController')->only(['index','store']);
 Route::resource('replies','Reply\ReplyController');
 Route::resource('replies.likes','Reply\ReplyLikesController')->except(['create','edit']);
-
 Route::resource('users','User\UserController')->except(['edit','create']);
-
 Route::post('/login','PagesController@login');
-
+Route::post('/register','PagesController@register');
 Route::group(['middleware'=>'auth.jwt'], function () {
     Route::post('/refresh','PagesController@refresh');
     Route::post('/logout','PagesController@logout');
-
 });

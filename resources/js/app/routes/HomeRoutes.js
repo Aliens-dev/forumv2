@@ -14,6 +14,7 @@ import Alert from '../components/Alert';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { addNotification } from '../actions';
+import CreateUser from "../pages/CreateUser";
 
 
 const HomeRoutes = (props) => {
@@ -45,6 +46,7 @@ const HomeRoutes = (props) => {
                 <Switch>
                     <Route path="/" exact render={ e => <Home {...e} />} />
                     <Route path="/login" exact render={ e => <Login {...e} />} />
+                    <Route path="/create" exact render={ e => <CreateUser {...e} />} />
                     <Route path="/forums/:forumId" exact render={e => <Forum {...e} />} />
                     <ProtectedRoute path="/forums/:forumId/new" exact render={e => <NewPost {...e} />} />
                     <Route path="/forums/:forumId/posts/:postId" exact render={e=> <Post {...e} /> } />
